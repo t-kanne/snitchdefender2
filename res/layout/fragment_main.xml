@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+     
+    <ImageView
+        android:id="@+id/imageLogo1"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_marginTop="5dp"
+        android:src="@drawable/logo3" />
+    
+     <ImageView
+        android:id="@+id/imageLine1"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageLogo1"
+         android:layout_marginTop="8dp"
+        android:src="@drawable/line" />
+    
+    <TextView
+        android:id="@+id/xcoor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageLine1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
+        android:text="X Coordinate: "
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/ycoor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zcoor"
+        android:layout_below="@+id/xcoor"
+        android:text="Y Coordinate: "
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/zcoor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/xcoor"
+        android:layout_below="@+id/ycoor"
+        android:text="Z Coordinate: "
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/max_x_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zcoor"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="10dp"
+        android:text="max-x:"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/max_y_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/max_x_text"
+        android:layout_marginLeft="3dp"
+        android:text="max-y:"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/max_z_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/max_y_text"
+        android:layout_marginLeft="3dp"
+        android:text="max-z:"
+        android:textSize="13sp" />
+    
+    <TextView
+        android:id="@+id/check1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/max_z_text"
+        android:layout_marginLeft="3dp"
+        android:text="check: "
+        android:textSize="13sp" />
+
+
+     <ImageButton
+         android:id="@+id/imageButton1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/max_z_text"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="20dp"
+         android:background="@drawable/new_button" />
+
+</RelativeLayout>
+
