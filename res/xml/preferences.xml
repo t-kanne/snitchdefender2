@@ -1,0 +1,40 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+	<PreferenceCategory 
+	    android:title="@string/pref_header_general" >
+	    <ListPreference
+	        android:defaultValue="-1"
+	        android:entries="@array/pref_movement_sensitivity_options"
+	        android:entryValues="@array/pref_movement_sensitivity_values"
+	        android:key="sensitivity_list"
+	        android:negativeButtonText="@null"
+	        android:positiveButtonText="@null"
+	        android:title="@string/pref_movement_sensitivity_title" />  
+    </PreferenceCategory>
+    
+	<PreferenceCategory
+	    android:title="@string/pref_header_notifications" >
+	    <RingtonePreference
+	        android:defaultValue="content://settings/system/notification_sound"
+	        android:key="pref_ringtone_key"
+	        android:ringtoneType="alarm"
+	        android:title="@string/pref_ringtone_title" />
+
+	    <CheckBoxPreference
+	        android:defaultValue="true"
+	        android:key="notifications_vibrate_key"
+	        android:title="@string/pref_vibrate_title" />    
+	</PreferenceCategory>
+	
+	<PreferenceCategory
+	    android:title="@string/pref_header_informations" >
+		<Preference android:title="@string/about_us_title" >
+	        <intent android:action="android.intent.action.VIEW"
+	            	android:targetPackage="de.mosyapp.snitchdefender"
+	            	android:targetClass="de.mosyapp.snitchdefender.CreditsActivity" />
+   		</Preference>
+   	</PreferenceCategory>
+    
+
+</PreferenceScreen>
