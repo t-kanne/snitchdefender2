@@ -25,6 +25,7 @@ package de.mosyapp.snitchdefender;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -33,6 +34,8 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -227,8 +230,24 @@ public class MainActivity extends Activity implements SensorEventListener {
 	}
 
 
-}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.action_settings){
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+		}
+		
+		return super.onOptionsItemSelected(item);
+	}
 
 	
 	
-	//kommentartest blabla 
+
+}
