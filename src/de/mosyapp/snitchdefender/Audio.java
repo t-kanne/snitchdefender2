@@ -47,7 +47,14 @@ public class Audio  {
 		*/
 		if (loaded && activated) {
 			activated = false;
-	    	soundIdTemp = sp.play(soundId, 1, 1, 1, -1, 1f);
+			
+			if (android.os.Build.VERSION.SDK_INT>=11){
+				soundIdTemp = sp.play(soundId, 1, 1, 1, -1, 1f);
+			}
+			else{
+				soundIdTemp = sp.play(soundId, 1, 1, 1, 0, 1f);
+				sp.setLoop(soundIdTemp, -1);
+			}
 		    Log.i("infos", "Sound wird abgespielt. Id: "+soundIdTemp);
 	    }
 		if (!loaded){
