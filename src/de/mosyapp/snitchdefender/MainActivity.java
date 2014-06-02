@@ -48,6 +48,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	Context context = this;
 	MediaPlayer mp;
 	
+	float sensorWerte[] = new float[2];
+	
 	SoundPool sp;
 	int soundId;
 	boolean loaded;
@@ -56,12 +58,14 @@ public class MainActivity extends Activity implements SensorEventListener {
 	ImageButton imageButton1;
 	TextView xValue, yValue, zValue, check1; 
 	TextView max_view_x, max_view_y, max_view_z; 
+	TextView xArray, yArray; 
 	float xmax, ymax, zmax;
 	float xmax_abs, ymax_abs, zmax_abs;
 	float x_compare, y_compare, z_compare;
 	boolean sensor_Check = false;   //Check Variable sobald X-Wert den Grenzwert überschreitet
-	float limitValue = 3;  			  // Sensor Grenzwert
+	float limitValue = 2;  			  // Sensor Grenzwert
 	boolean check = false;			  // Check Variable sobald der Button gedrückt wurde
+	float x,y,z;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -79,6 +83,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		max_view_y = (TextView)findViewById(R.id.max_y_text);
 		max_view_z = (TextView)findViewById(R.id.max_z_text);
 		check1 = (TextView)findViewById(R.id.check1);
+		xArray = (TextView)findViewById(R.id.xArray);
+		yArray = (TextView)findViewById(R.id.yArray);
 		
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(this, 
@@ -89,6 +95,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		audio = new Audio(context);
 		audio.loadSound();
+		
+		
+		
 		}
 
 
@@ -98,9 +107,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
 			
-			float x = event.values[0];
-			float y = event.values[1];
-			float z = event.values[2];
+			x = event.values[0];
+			y = event.values[1];
+			z = event.values[2];
 			
 			// folgende Werte bzw. TextViews sind eigentlich nur zur Anzeige gedacht
 			// sollen dann natürlich weg
@@ -112,7 +121,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 			xmax = Math.abs(x);
 			ymax = Math.abs(y);
 			zmax = Math.abs(z);
-				
+
 			// Anzeige der Maximalwerte
 				if(xmax > x_compare){
 					max_view_x.setText("max-x: " + xmax);
@@ -128,9 +137,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 					max_view_z.setText("max-z: " + zmax);
 					z_compare = zmax;
 				}
+				
 				check1.setText("check: " + check);
+				
 			}
-
+		compareSensorData();
+			
+		/*
 		//aktuell nur Überprüfung der X-Achse und Y-Achse (der Einfachheit halber und so)
 		if(xmax > limitValue || ymax > limitValue){
 			sensor_Check = true;
@@ -139,6 +152,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 			sensor_Check = false;
 		}
 		sensorTest();
+		*/
 	}
 	
 	
@@ -147,6 +161,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 		imageButton1.setOnClickListener(new OnClickListener() {
  
 			public void onClick(View v) {	
+						
+			 //Speichern der aktuell gemessen Sensorwerte in ein Array
+				sensorWerte[0] = x;
+				sensorWerte[1] = y;
+			
+				xArray.setText("xArray: "+ sensorWerte[0]);
+				yArray.setText("yArray: "+ sensorWerte[1]);
+				Log.i("infos", "sensorwerte ins array geladen");
+				
+				
 				if(check == false){
 					check = true;
 				}
@@ -160,6 +184,37 @@ public class MainActivity extends Activity implements SensorEventListener {
 			
 		});
 	}
+	
+	
+	//Verarbeiten der im Array gespeicherten X,Y Werte
+	
+	public void compareSensorData(){
+	
+		float x_array = sensorWerte[0];
+		float x_array2 = Math.abs(x_array);
+		float x_array_compare = x_array2 + limitValue;
+		
+		float y_array = sensorWerte[1];
+		float y_array2 = Math.abs(y_array);
+		float y_array_compare2 = y_array2 - limitValue;
+		float y_array_compare = y_array2 + limitValue;
+		
+		if(xmax > x_array_compare || ymax > y_array_compare || ymax < y_array_compare2){
+			sensor_Check = true;
+		}
+		else if(xmax < x_array_compare || ymax < y_array_compare){
+			sensor_Check = false;
+		}
+		Log.i("infos", "vergleisch ausgeführt und sensorTest()");	
+		sensorTest();
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	//Überprüfung: wurde der Aktivierbutton gedrückt UND ein Sensor Grenzwert überschritten?
 	// -> Sound auslösen

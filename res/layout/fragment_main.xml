@@ -85,6 +85,24 @@
         android:layout_marginLeft="3dp"
         android:text="check: "
         android:textSize="13sp" />
+    
+     <TextView
+        android:id="@+id/xArray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/check1"
+        android:layout_marginLeft="3dp"
+        android:text="xArray "
+        android:textSize="13sp" />
+     
+      <TextView
+        android:id="@+id/yArray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/xArray"
+        android:layout_marginLeft="3dp"
+        android:text="yArray "
+        android:textSize="13sp" />
 
 
      <ImageButton
