@@ -205,7 +205,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		else if(xmax < x_array_compare || ymax < y_array_compare){
 			sensor_Check = false;
 		}
-		Log.i("infos", "vergleisch ausgeführt und sensorTest()");	
+		
 		sensorTest();
 		
 	}

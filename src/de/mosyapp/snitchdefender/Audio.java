@@ -8,20 +8,22 @@ import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Build;
 import android.util.Log;
 
-public class Audio {
+public class Audio  {
 	Context context;
 	SoundPool sp;
 	int soundId;
+	int soundIdTemp;
 	boolean loaded;
 	boolean activated = true;
 	
 	public Audio(Context context){
-		this.context = context;  
+		//super(1, 4, 0); //1 = Anzahl gleichzeitiger Streams, 4 = Type: Alarm, 0 = Qualität: Standard
+		this.context = context;  	
 	}
 
 	@TargetApi(Build.VERSION_CODES.FROYO)
 	public void loadSound(){
-	    sp = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+	    sp = new SoundPool(1, AudioManager.STREAM_ALARM, 0);
 	    
 	    sp.setOnLoadCompleteListener(new OnLoadCompleteListener() {
 	
@@ -45,14 +47,16 @@ public class Audio {
 		*/
 		if (loaded && activated) {
 			activated = false;
-	    	sp.play(soundId, 1, 1, 1, 0, 1f);
-	    	sp.setLoop(soundId, 9);
-		    Log.i("infos", "Sound sollte gespielt werden");
+	    	soundIdTemp = sp.play(soundId, 1, 1, 1, -1, 1f);
+		    Log.i("infos", "Sound wird abgespielt. Id: "+soundIdTemp);
 	    }
+		if (!loaded){
+			Log.i("infos","nicht loaded");
+		}
     }
     
     public void stopSound() {
-    	sp.stop(soundId);
+    	sp.stop(soundIdTemp);
     	activated = true;
     	Log.i("infos", "Stopp");
     }
