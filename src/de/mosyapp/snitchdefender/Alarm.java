@@ -16,7 +16,6 @@ public class Alarm  {
 	private int soundIdTemp;
 	private boolean loaded;
 	private boolean activated = true;
-	private boolean vibrationActivated;
 	private boolean checkVibrationOn = false;
 	private Vibrator vibrator;
 	
@@ -94,7 +93,7 @@ public class Alarm  {
     
     public void startVibrationOnActivate(){
     	vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
-    	vibrator.vibrate(150);
+    	vibrator.vibrate(60);
     }
    
     

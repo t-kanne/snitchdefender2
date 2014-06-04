@@ -99,7 +99,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 
 		// Einstellungen aufrufen aus SettingsActivity
