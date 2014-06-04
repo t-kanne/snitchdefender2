@@ -19,6 +19,10 @@ public class Alarm  {
 	private boolean vibrationActivated;
 	private boolean checkVibrationOn = false;
 	private Vibrator vibrator;
+	
+	
+	//Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+	//v.vibrate(400);  // vibriert für 400ms
 
 	
 	public Alarm (Context context){
@@ -83,12 +87,14 @@ public class Alarm  {
     
     public void stopVibration(boolean vibrationActivated){
     	if (vibrationActivated == true && checkVibrationOn == true){
-    		
     			vibrator.cancel();
-    			checkVibrationOn = false;
-    		
+    			checkVibrationOn = false;	
     	}
-    	
+    }
+    
+    public void startVibrationOnActivate(){
+    	vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
+    	vibrator.vibrate(150);
     }
    
     

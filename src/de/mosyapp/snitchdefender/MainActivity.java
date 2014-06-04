@@ -195,6 +195,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				
 				if(check == false){
 					check = true;
+					alarm.startVibrationOnActivate();
 				}
 				else if(check == true){
 					Log.i("infos", "Gleich wird gestoppt");
