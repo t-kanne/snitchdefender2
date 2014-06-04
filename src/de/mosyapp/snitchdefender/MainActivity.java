@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	Alarm alarm;
 	Context context = this;
 	
-	float sensorWerte[] = new float[2];
+	float sensorWerte[] = new float[3];
 	
 	SoundPool sp;
 	int soundId;
@@ -60,7 +60,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	ImageButton imageButton1;
 	TextView xValue, yValue, zValue, check1; 
 	TextView max_view_x, max_view_y, max_view_z; 
-	TextView xArray, yArray; 
+	TextView xArray, yArray, zArray; 
 	float xmax, ymax, zmax;
 	float xmax_abs, ymax_abs, zmax_abs;
 	float x_compare, y_compare, z_compare;
@@ -83,12 +83,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 		xValue=(TextView)findViewById(R.id.xcoor);
 		yValue=(TextView)findViewById(R.id.ycoor); 
 		zValue=(TextView)findViewById(R.id.zcoor); 
+		
 		max_view_x = (TextView)findViewById(R.id.max_x_text);
 		max_view_y = (TextView)findViewById(R.id.max_y_text);
 		max_view_z = (TextView)findViewById(R.id.max_z_text);
+		
 		check1 = (TextView)findViewById(R.id.check1);
+		
 		xArray = (TextView)findViewById(R.id.xArray);
 		yArray = (TextView)findViewById(R.id.yArray);
+		zArray = (TextView)findViewById(R.id.zArray);
 		
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
 		sensorManager.registerListener(this, 
@@ -158,16 +162,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 			}
 		compareSensorData();
 			
-		/*
-		//aktuell nur Überprüfung der X-Achse und Y-Achse (der Einfachheit halber und so)
-		if(xmax > limitValue || ymax > limitValue){
-			sensor_Check = true;
-		}
-		else if(xmax < limitValue || ymax < limitValue){
-			sensor_Check = false;
-		}
-		sensorTest();
-		*/
+		
 	}
 	
 	
@@ -180,9 +175,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 			 //Speichern der aktuell gemessen Sensorwerte in ein Array
 				sensorWerte[0] = x;
 				sensorWerte[1] = y;
+				sensorWerte[2] = z;
 			
-				xArray.setText("xArray: "+ sensorWerte[0]);
-				yArray.setText("yArray: "+ sensorWerte[1]);
+				xArray.setText("xA: "+ sensorWerte[0]);
+				yArray.setText("yA: "+ sensorWerte[1]);
+				zArray.setText("zA: "+ sensorWerte[2]);
 				Log.i("infos", "sensorwerte ins array geladen");
 				
 				
@@ -192,7 +189,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				else if(check == true){
 					Log.i("infos", "Gleich wird gestoppt");
 					alarm.stopSound();
-					alarm.stopVibration();
+					alarm.stopVibration(settingsActivity.getVibration());
 					check = false;
 				}
 				
@@ -215,7 +212,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 		float y_array_compare2 = y_array2 - limitValue;
 		float y_array_compare = y_array2 + limitValue;
 		
-		if(xmax > x_array_compare || ymax > y_array_compare || ymax < y_array_compare2){
+		float z_array = sensorWerte[2];
+		float z_array2 = Math.abs(z_array);
+		float z_array_compare2 = z_array2 - limitValue;
+		float z_array_compare = z_array2 + limitValue;
+		
+		if(xmax > x_array_compare || ymax > y_array_compare || ymax < y_array_compare2 || zmax > z_array_compare || zmax < z_array_compare2){
 			sensor_Check = true;
 		}
 		else if(xmax < x_array_compare || ymax < y_array_compare){

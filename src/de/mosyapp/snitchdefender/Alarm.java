@@ -81,12 +81,13 @@ public class Alarm  {
     	}
     }
     
-    public void stopVibration(){
-    	if(checkVibrationOn = true){
-    		vibrator.cancel();
-    		checkVibrationOn = false;
+    public void stopVibration(boolean vibrationActivated){
+    	if (vibrationActivated == true && checkVibrationOn == true){
+    		
+    			vibrator.cancel();
+    			checkVibrationOn = false;
+    		
     	}
-    	
     	
     }
    
