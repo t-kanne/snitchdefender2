@@ -11,13 +11,13 @@
         <item>standard</item>
         <item>nicht sehr empfindlich</item>
     </string-array>
- 
+    
     <string-array name="pref_movement_sensitivity_values">
         <item>1</item>
-        <item>0</item>
-        <item>-1</item>
+        <item>3</item>
+        <item>10</item>
     </string-array>
-
+ 
 
     <!-- settings for Notifications -->
     <string name="pref_header_notifications">Benachrichtigungen</string>

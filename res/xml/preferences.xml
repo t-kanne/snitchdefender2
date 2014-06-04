@@ -4,7 +4,7 @@
 	<PreferenceCategory 
 	    android:title="@string/pref_header_general" >
 	    <ListPreference
-	        android:defaultValue="-1"
+	        android:defaultValue="3"
 	        android:entries="@array/pref_movement_sensitivity_options"
 	        android:entryValues="@array/pref_movement_sensitivity_values"
 	        android:key="sensitivity_list"

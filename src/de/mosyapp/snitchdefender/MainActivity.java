@@ -30,7 +30,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,11 +44,11 @@ import android.widget.TextView;
 @SuppressLint("NewApi")
 public class MainActivity extends Activity implements SensorEventListener {
 	private SensorManager sensorManager;
+	SettingsActivity settingsActivity;
 	
 	//private MediaPlayer mp; 
 	Audio audio;
 	Context context = this;
-	MediaPlayer mp;
 	
 	float sensorWerte[] = new float[2];
 	
@@ -66,13 +65,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 	float xmax_abs, ymax_abs, zmax_abs;
 	float x_compare, y_compare, z_compare;
 	boolean sensor_Check = false;   //Check Variable sobald X-Wert den Grenzwert überschreitet
-	float limitValue = 2;  			  // Sensor Grenzwert
+	float limitValue;  			  // Sensor Grenzwert
 	boolean check = false;			  // Check Variable sobald der Button gedrückt wurde
 	float x,y,z;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
-		
+		settingsActivity = new SettingsActivity();
+		limitValue = settingsActivity.getSensorSensibility();
+		Log.i("infos","limitValue: "+limitValue);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 		
@@ -102,6 +103,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		
 		}
+
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		limitValue = settingsActivity.getSensorSensibility();
+		Log.i("infos","(resume) limitValue: "+limitValue);
+	}
+
 
 
 	public void onAccuracyChanged(Sensor sensor,int accuracy){}
