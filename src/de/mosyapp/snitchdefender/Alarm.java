@@ -2,12 +2,15 @@ package de.mosyapp.snitchdefender;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Build;
 import android.os.Vibrator;
 import android.util.Log;
+import android.hardware.Camera.AutoFocusCallback;
 
 public class Alarm  {
 	private Context context;
@@ -18,11 +21,8 @@ public class Alarm  {
 	private boolean activated = true;
 	private boolean checkVibrationOn = false;
 	private Vibrator vibrator;
+	private Camera cam;
 	
-	
-	//Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-	//v.vibrate(400);  // vibriert für 400ms
-
 	
 	public Alarm (Context context){
 		this.context = context;  	
@@ -94,6 +94,36 @@ public class Alarm  {
     public void startVibrationOnActivate(){
     	vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
     	vibrator.vibrate(60);
+    }
+    
+    
+    
+    
+    
+    public void startFlashLight(){
+    	try{
+    		 cam = Camera.open();     
+    		 Parameters params = cam.getParameters();
+    		 params.setFlashMode(Parameters.FLASH_MODE_ON);
+    		 cam.setParameters(params);
+    		 cam.startPreview();
+    		 cam.autoFocus(new AutoFocusCallback() {
+                 public void onAutoFocus(boolean success, Camera camera) {
+                 }
+      });
+    		 Log.i("infos","led an hat geklappt");
+    	}
+    	catch(Exception e){
+    		Log.i("infos","led an hat nicht geklappt");
+    	}
+    	
+    }
+    
+    public void stopFlashLight(){
+    	cam.stopPreview();
+    	cam.release();
+        Log.i("infos","led aus");
+    	
     }
    
     

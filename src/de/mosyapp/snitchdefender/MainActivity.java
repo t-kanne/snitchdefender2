@@ -186,6 +186,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 					Log.i("infos", "Gleich wird gestoppt");
 					alarm.stopSound();
 					alarm.stopVibration(vibrationActivated);
+					alarm.stopFlashLight();
 					check = false;
 				}
 				
@@ -236,6 +237,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		if(check == true && sensor_Check == true){
 			alarm.startSound();
 			alarm.startVibration(vibrationActivated);
+			alarm.startFlashLight();
 		}
 	}
 
