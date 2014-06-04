@@ -26,12 +26,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,15 +66,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 	float xmax, ymax, zmax;
 	float xmax_abs, ymax_abs, zmax_abs;
 	float x_compare, y_compare, z_compare;
-	boolean sensor_Check = false;   //Check Variable sobald X-Wert den Grenzwert überschreitet
-	float limitValue;  		 	// Sensor Grenzwert
-	boolean check = false;			  // Check Variable sobald der Button gedrückt wurde
+	boolean sensor_Check = false;   	//Check Variable sobald X-Wert den Grenzwert überschreitet
+	float limitValue;					// Sensor Grenzwert
+	boolean vibrationActivated;			// Check, ob Vibration in den Einstellungen eingeschaltet ist
+	boolean check = false;			  	// Check Variable sobald der Button gedrückt wurde
 	float x,y,z;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		settingsActivity = new SettingsActivity();
-		limitValue = settingsActivity.getSensorSensibility();
+		
 		Log.i("infos","limitValue: "+limitValue);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
@@ -103,8 +106,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		alarm = new Alarm(context);
 		alarm.loadSound();
-		
-		
+	
 		
 		}
 
@@ -113,9 +115,17 @@ public class MainActivity extends Activity implements SensorEventListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		limitValue = settingsActivity.getSensorSensibility();
+
+		// Einstellungen aufrufen aus SettingsActivity
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		
-		Log.i("infos","(resume) limitValue: "+limitValue);
+		// Aufrufen der Sensibilität aus den Einstellungen
+		limitValue = Float.parseFloat(preferences.getString("sensitivity_list", "3"));
+		Log.i("infos", "(sp) limitValue: " + limitValue);
+
+		// Aufrufen, ob Vibration in den Einstellungen aktiviert ist
+		vibrationActivated = preferences.getBoolean("notifications_vibrate_key", true);
+		Log.i("infos", "(sp) vibrationActivated: " + vibrationActivated);
 	}
 
 
@@ -239,9 +249,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void sensorTest(){
 		if(check == true && sensor_Check == true){
 			alarm.startSound();
-			alarm.startVibration(settingsActivity.getVibration());
+			alarm.startVibration(vibrationActivated);
 		}
-
 	}
 
 
