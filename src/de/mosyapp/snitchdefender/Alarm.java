@@ -22,6 +22,7 @@ public class Alarm  {
 	private boolean checkVibrationOn = false;
 	private Vibrator vibrator;
 	private Camera cam;
+	private boolean isFlashOn = false;
 	
 	
 	public Alarm (Context context){
@@ -102,15 +103,18 @@ public class Alarm  {
     
     public void startFlashLight(){
     	try{
-    		 cam = Camera.open();     
-    		 Parameters params = cam.getParameters();
-    		 params.setFlashMode(Parameters.FLASH_MODE_ON);
-    		 cam.setParameters(params);
-    		 cam.startPreview();
-    		 cam.autoFocus(new AutoFocusCallback() {
-                 public void onAutoFocus(boolean success, Camera camera) {
-             }
-      });
+    		if(isFlashOn == false){
+    			cam = Camera.open();     
+    			Parameters params = cam.getParameters();
+    			params.setFlashMode(Parameters.FLASH_MODE_ON);
+    			cam.setParameters(params);
+    			cam.startPreview();
+    			cam.autoFocus(new AutoFocusCallback() {
+    				public void onAutoFocus(boolean success, Camera camera) {
+    				}
+    			});
+    			isFlashOn = true;
+    		}
     		 Log.i("infos","led an hat geklappt");
     	}
     	catch(Exception e){
@@ -120,10 +124,12 @@ public class Alarm  {
     }
     
     public void stopFlashLight(){
+    	if (isFlashOn == true) {
     	cam.stopPreview();
     	cam.release();
+    	isFlashOn = false;
         Log.i("infos","led aus");
-    	
+    	}
     }
    
     
