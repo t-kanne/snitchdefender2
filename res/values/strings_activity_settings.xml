@@ -23,6 +23,7 @@
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_ringtone_title">Alarmton</string>
     <string name="pref_vibrate_title">Vibrieren</string>
+    <string name="pref_flashlight_title">LED-Alarm</string>
     
     <!-- settings for Informations -->
     <string name="pref_header_informations">Informationen</string>
