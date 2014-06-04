@@ -103,6 +103,15 @@
         android:layout_marginLeft="3dp"
         android:text="yArray "
         android:textSize="13sp" />
+      
+      <TextView
+        android:id="@+id/zArray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yArray"
+        android:layout_marginLeft="3dp"
+        android:text="zArray "
+        android:textSize="13sp" />
 
 
      <ImageButton
