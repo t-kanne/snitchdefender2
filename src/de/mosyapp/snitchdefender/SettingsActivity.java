@@ -12,8 +12,8 @@ import android.util.Log;
 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
-	private static float sensorSensibility = 3;
-	private static boolean vibrationActivated = true;
+	private static float sensorSensibility;
+	private static boolean vibrationActivated;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
