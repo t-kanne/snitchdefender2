@@ -109,7 +109,7 @@ public class Alarm  {
     		 cam.startPreview();
     		 cam.autoFocus(new AutoFocusCallback() {
                  public void onAutoFocus(boolean success, Camera camera) {
-                 }
+             }
       });
     		 Log.i("infos","led an hat geklappt");
     	}
