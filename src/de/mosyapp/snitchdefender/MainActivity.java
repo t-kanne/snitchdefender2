@@ -1,20 +1,6 @@
 /*/////////////////////////////////////////////////////////////////////////////////////////////
 MOSY APP// SNITCHDEFENDER
 produced by appBert & programmierKanne
-MOMENTANER STAND
-------------------------------------
-	
-	Alarm ist per Button (de)aktivierbar
-	
-	Zeile 1-3:
-		ausgelesene Momentanwerte für X/Y/Z Werte werden angezeigt in den ersten drei Zeilen
-
-	Zeile 4-6:
-		maximal erreichte Werte für X/Y/Z
-		
-	Variable "check" (boolean) wird per Button true/false gesetzt
-	Check Variable als "Freigabe" Variable
-	sobald true, ist die Soundaktivierung möglich bei Grenzwertüberschreitung (nicht nur möglich, sondern sicher, alter!)
 	
 //////////////////////////////////////////////////////////////
 */
