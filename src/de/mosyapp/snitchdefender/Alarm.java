@@ -17,7 +17,9 @@ public class Alarm  {
 	private boolean loaded;
 	private boolean activated = true;
 	private boolean vibrationActivated;
+	private boolean checkVibrationOn = false;
 	private Vibrator vibrator;
+
 	
 	public Alarm (Context context){
 		this.context = context;  	
@@ -75,10 +77,18 @@ public class Alarm  {
     		vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
     		long[] vibArray = {1,1};
     		vibrator.vibrate(vibArray, 0);
+    		checkVibrationOn = true;
     	}
     }
     
-    
+    public void stopVibration(){
+    	if(checkVibrationOn = true){
+    		vibrator.cancel();
+    		checkVibrationOn = false;
+    	}
+    	
+    	
+    }
    
     
 }

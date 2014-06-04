@@ -65,7 +65,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	float xmax_abs, ymax_abs, zmax_abs;
 	float x_compare, y_compare, z_compare;
 	boolean sensor_Check = false;   //Check Variable sobald X-Wert den Grenzwert überschreitet
-	float limitValue;  			  // Sensor Grenzwert
+	float limitValue;  		 	// Sensor Grenzwert
 	boolean check = false;			  // Check Variable sobald der Button gedrückt wurde
 	float x,y,z;
 	
@@ -192,6 +192,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				else if(check == true){
 					Log.i("infos", "Gleich wird gestoppt");
 					alarm.stopSound();
+					alarm.stopVibration();
 					check = false;
 				}
 				
@@ -220,7 +221,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		else if(xmax < x_array_compare || ymax < y_array_compare){
 			sensor_Check = false;
 		}
-		
+	
 		sensorTest();
 		
 	}
