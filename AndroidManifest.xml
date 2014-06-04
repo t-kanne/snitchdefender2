@@ -3,6 +3,8 @@
     package="de.mosyapp.snitchdefender"
     android:versionCode="1"
     android:versionName="1.0" >
+    
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -31,6 +33,7 @@
             android:name="de.mosyapp.snitchdefender.CreditsActivity"
             android:label="@string/title_activity_credits" >
         </activity>
-    </application>
+
+	    </application>
 
 </manifest>

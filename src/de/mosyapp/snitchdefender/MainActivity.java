@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	SettingsActivity settingsActivity;
 	
 	//private MediaPlayer mp; 
-	Audio audio;
+	Alarm alarm;
 	Context context = this;
 	
 	float sensorWerte[] = new float[2];
@@ -97,8 +97,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 		addButtonListener();
 		
-		audio = new Audio(context);
-		audio.loadSound();
+		alarm = new Alarm(context);
+		alarm.loadSound();
 		
 		
 		
@@ -110,6 +110,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 		limitValue = settingsActivity.getSensorSensibility();
+		
 		Log.i("infos","(resume) limitValue: "+limitValue);
 	}
 
@@ -190,7 +191,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				}
 				else if(check == true){
 					Log.i("infos", "Gleich wird gestoppt");
-					audio.stopSound();
+					alarm.stopSound();
 					check = false;
 				}
 				
@@ -234,8 +235,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	// -> Sound auslösen
 	public void sensorTest(){
 		if(check == true && sensor_Check == true){
-			audio.startSound();
-			
+			alarm.startSound();
+			alarm.startVibration(settingsActivity.getVibration());
 		}
 
 	}

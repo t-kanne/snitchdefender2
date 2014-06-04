@@ -6,18 +6,20 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Build;
+import android.os.Vibrator;
 import android.util.Log;
 
-public class Audio  {
-	Context context;
-	SoundPool sp;
-	int soundId;
-	int soundIdTemp;
-	boolean loaded;
-	boolean activated = true;
+public class Alarm  {
+	private Context context;
+	private SoundPool sp;
+	private int soundId;
+	private int soundIdTemp;
+	private boolean loaded;
+	private boolean activated = true;
+	private boolean vibrationActivated;
+	private Vibrator vibrator;
 	
-	public Audio(Context context){
-		//super(1, 4, 0); //1 = Anzahl gleichzeitiger Streams, 4 = Type: Alarm, 0 = Qualität: Standard
+	public Alarm (Context context){
 		this.context = context;  	
 	}
 
@@ -67,6 +69,16 @@ public class Audio  {
     	activated = true;
     	Log.i("infos", "Stopp");
     }
+    
+    public void startVibration(boolean vibrationActivated) {
+    	if (vibrationActivated == true){
+    		vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
+    		long[] vibArray = {1,1};
+    		vibrator.vibrate(vibArray, 0);
+    	}
+    }
+    
+    
    
     
 }
