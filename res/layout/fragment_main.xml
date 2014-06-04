@@ -121,7 +121,7 @@
          android:layout_below="@+id/max_z_text"
          android:layout_centerHorizontal="true"
          android:layout_marginTop="20dp"
-         android:background="@drawable/new_button" />
+         android:background="@drawable/new_button"  />
 
 </RelativeLayout>
 

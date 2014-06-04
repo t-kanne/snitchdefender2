@@ -10,9 +10,13 @@ package de.mosyapp.snitchdefender;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,6 +24,7 @@ import android.hardware.SensorManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +38,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements SensorEventListener {
 	private SensorManager sensorManager;
 	SettingsActivity settingsActivity;
+	private static boolean isSnitchActivated;
 	
 	//private MediaPlayer mp; 
 	Alarm alarm;
@@ -61,6 +67,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		settingsActivity = new SettingsActivity();
+		isSnitchActivated = false;
 		
 		Log.i("infos","limitValue: "+limitValue);
 		super.onCreate(savedInstanceState);
@@ -184,6 +191,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				}
 				else if(check == true){
 					Log.i("infos", "Gleich wird gestoppt");
+					isSnitchActivated = false;
 					alarm.stopSound();
 					alarm.stopVibration(vibrationActivated);
 					alarm.stopFlashLight();
@@ -235,6 +243,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	// -> Sound auslösen
 	public void sensorTest(){
 		if(check == true && sensor_Check == true){
+			isSnitchActivated = true;
 			alarm.startSound();
 			alarm.startVibration(vibrationActivated);
 			alarm.startFlashLight();
@@ -258,7 +267,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		return super.onOptionsItemSelected(item);
 	}
-
 	
 	
 
