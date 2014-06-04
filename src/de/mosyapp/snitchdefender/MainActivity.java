@@ -199,7 +199,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				else if(check == true){
 					Log.i("infos", "Gleich wird gestoppt");
 					alarm.stopSound();
-					alarm.stopVibration(settingsActivity.getVibration());
+					alarm.stopVibration(vibrationActivated);
 					check = false;
 				}
 				
