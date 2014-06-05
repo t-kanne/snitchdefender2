@@ -15,6 +15,7 @@ public class CreateNotificationService extends Service {
 	private NotificationManager nm;
 	private int notifId = 1;
 	
+
 	public class LocalBinder extends Binder {
 		CreateNotificationService getService() {
 			return CreateNotificationService.this;
@@ -24,8 +25,9 @@ public class CreateNotificationService extends Service {
 	@Override
 	public void onCreate() {
 		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		buildNotification();	
+		buildNotification(false);	
 	}
+	
 	
 	
 	@Override
@@ -48,22 +50,29 @@ public class CreateNotificationService extends Service {
     private final IBinder mBinder = new LocalBinder();
 	
 	
-	public void buildNotification() {
+	public void buildNotification(boolean isDefendActive) {
+		Log.i("createNotif", "isDefendActive: " + isDefendActive);
+		Notification n;
+		NotificationCompat.Builder builder;
+		
 		Intent intent = new Intent(this, MainActivity.class);
 		PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+		builder = new NotificationCompat.Builder(this);
 
 		builder.setContentIntent(pIntent)
 			.setContentTitle("Snitch Defender")
-		    .setContentText("Zum Konfigurieren berühren").setSmallIcon(R.drawable.sd_icon)
-		    .setContentIntent(pIntent);
-
-		Notification n = builder.build();
-
-
+			.setSmallIcon(R.drawable.sd_icon)
+			.setOnlyAlertOnce(true)
+			.setContentIntent(pIntent);
+		
+		if (isDefendActive) {
+			builder.setContentText("Diebstahlschutz ist aktiv");
+		} else {
+			builder.setContentText("Diebstahlschutz ist nicht aktiv");
+		}
+		
+		n = builder.build();
 		nm.notify(notifId, n);
-
 	}
-	
 }
