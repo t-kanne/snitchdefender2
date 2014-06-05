@@ -24,8 +24,7 @@ public class CreateNotificationService extends Service {
 
 	@Override
 	public void onCreate() {
-		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		buildNotification(false);	
+		Log.i("createNotif", "onCreate() ausgeführt");
 	}
 	
 	
@@ -45,11 +44,14 @@ public class CreateNotificationService extends Service {
 	
     @Override
     public IBinder onBind(Intent intent) {
+		nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		buildNotification(intent.getBooleanExtra("isDefendActive", false));
+    	Log.i("createNotif", "onBind() ausgeführt");
         return mBinder;
     }
     private final IBinder mBinder = new LocalBinder();
 	
-	
+
 	public void buildNotification(boolean isDefendActive) {
 		Log.i("createNotif", "isDefendActive: " + isDefendActive);
 		Notification n;

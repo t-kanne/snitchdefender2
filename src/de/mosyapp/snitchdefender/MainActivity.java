@@ -240,6 +240,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				if(buttonPressed == false){
 					buttonPressed = true;
 					alarm.startVibrationOnActivate();
+					updateNotification(true);
 				}
 				else if(buttonPressed == true){
 					Log.i("infos", "Gleich wird gestoppt");
@@ -247,6 +248,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 					alarm.stopVibration(vibrationActivated);
 					alarm.stopFlashLight();
 					buttonPressed = false;
+					updateNotification(false);
 				}
 			}
 		});
@@ -295,6 +297,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 
+	public void updateNotification(boolean isActive) {
+		Intent intent = new Intent (MainActivity.this, CreateNotificationService.class);
+		intent.putExtra("isDefendActive", isActive);
+		unbindService(mConnection);
+		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+	}
+	
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
 		// TODO Auto-generated method stub
