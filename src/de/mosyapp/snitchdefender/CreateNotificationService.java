@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -17,9 +18,10 @@ public class CreateNotificationService extends IntentService {
 		super("CreateNotificationService");
 	}
   
-	
 	@Override
-	protected void onHandleIntent(Intent intent) {
+	public void onStart(Intent intent, int startId) {
+		super.onStart(intent, startId);
+		
 		intent = new Intent(this, MainActivity.class);
 	    PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 	
@@ -38,8 +40,35 @@ public class CreateNotificationService extends IntentService {
 	    nm.notify(1, n);
 		
 		Log.i("notifService", "Test");
+	
 	}
+	
 
+	@Override
+	protected void onHandleIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		
+	}
+/*
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		
+	    NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+	    nm.cancel(1);
+		
+	}
+*/
+
+	@Override
+	public boolean onUnbind(Intent intent) {
+		// TODO Auto-generated method stub
+		NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+	    nm.cancel(1);
+		return super.onUnbind(intent);
+	}	
+	
 
 
 } 

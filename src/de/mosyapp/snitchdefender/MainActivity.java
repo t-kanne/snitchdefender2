@@ -15,6 +15,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.hardware.Sensor;
@@ -59,6 +60,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	boolean sensor_Check = false;   	//Check Variable sobald X-Wert den Grenzwert überschreitet
 	float limitValue;					// Sensor Grenzwert
 	boolean vibrationActivated;			// Check, ob Vibration in den Einstellungen eingeschaltet ist
+	boolean flashlightActivated;        // Check, ob die LED in den Einstellungen eingeschaltet ist
 	boolean check = false;			  	// Check Variable sobald der Button gedrückt wurde
 	float x,y,z;
 	
@@ -96,8 +98,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 		alarm = new Alarm(context);
 		alarm.loadSound();
 		
-		Intent notifIntent = new Intent(this, CreateNotificationService.class);
-		startService(notifIntent);
 	}
 
 
@@ -110,38 +110,22 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		// Aufrufen der Sensibilität aus den Einstellungen
 		limitValue = Float.parseFloat(preferences.getString("sensitivity_list", "3"));
-		Log.i("infos", "(sp) limitValue: " + limitValue);
+		Log.i("prefs", "(sp) limitValue: " + limitValue);
 
 		// Aufrufen, ob Vibration in den Einstellungen aktiviert ist
 		vibrationActivated = preferences.getBoolean("notifications_vibrate_key", true);
-		Log.i("infos", "(sp) vibrationActivated: " + vibrationActivated);
+		Log.i("prefs", "(sp) vibrationActivated: " + vibrationActivated);
 		
-/*		
-		//###########################################
-		//NOCH AUSLAGERN
-		//###########################################
-	    Intent intent = new Intent(this, MainActivity.class);
-	    PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_NO_CREATE);
-
-	    NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-	    
-	    int notifyID = 1;
-	    
-	    Resources res = this.getResources();
-	    NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-	    builder.setContentIntent(pIntent)
-    	.setContentTitle("Snitch Defender")
-        .setContentText("Für Diebstahlschutz bitte berühren").setSmallIcon(R.drawable.sd_icon)
-        .setContentIntent(pIntent);
-	    
-	    Notification n = builder.build();
-	    
-	    nm.notify(notifyID, n);
-	    
-	    //#############################################
-*/
+		// Aufrufen, ob LED in den Einstellungen aktiviert ist
+		flashlightActivated = preferences.getBoolean("notifications_flashlight_key", true);
+		Log.i("prefs", "(sp) flashlightActivated: " + flashlightActivated);
+		
+		// Benachrichtigungsleiste anzeigen
+		Intent notifIntent = new Intent(this, CreateNotificationService.class);
+		startService(notifIntent);
 	
 	}
+
 
 	public void onAccuracyChanged(Sensor sensor,int accuracy){}
 	
@@ -188,6 +172,44 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 	}
 	
+	//Verarbeiten der im Array gespeicherten X,Y Werte
+	
+	public void compareSensorData(){
+	
+		float x_array = sensorWerte[0];
+		float x_array2 = Math.abs(x_array);
+		float x_array_compare = x_array2 + limitValue;
+		
+		float y_array = sensorWerte[1];
+		float y_array2 = Math.abs(y_array);
+		float y_array_compare2 = y_array2 - limitValue;
+		float y_array_compare = y_array2 + limitValue;
+		
+		float z_array = sensorWerte[2];
+		float z_array2 = Math.abs(z_array);
+		float z_array_compare2 = z_array2 - limitValue;
+		float z_array_compare = z_array2 + limitValue;
+		
+		if(xmax > x_array_compare || ymax > y_array_compare || ymax < y_array_compare2 || zmax > z_array_compare || zmax < z_array_compare2){
+			sensor_Check = true;
+		}
+		else if(xmax < x_array_compare || ymax < y_array_compare){
+			sensor_Check = false;
+		}
+	
+		activateAlarms();
+		
+	}
+	
+	//Überprüfung: wurde der Aktivierbutton gedrückt UND ein Sensor Grenzwert überschritten?
+	// -> Sound auslösen
+	public void activateAlarms(){
+		if(check == true && sensor_Check == true){
+			alarm.startSound();
+			alarm.startVibration(vibrationActivated);
+			alarm.startFlashLight(flashlightActivated);
+		}
+	}
 	
 	public void addButtonListener() { 
 		imageButton1 = (ImageButton) findViewById(R.id.imageButton1);
@@ -222,52 +244,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 			
 		});
 	}
-	
-	
-	//Verarbeiten der im Array gespeicherten X,Y Werte
-	
-	public void compareSensorData(){
-	
-		float x_array = sensorWerte[0];
-		float x_array2 = Math.abs(x_array);
-		float x_array_compare = x_array2 + limitValue;
-		
-		float y_array = sensorWerte[1];
-		float y_array2 = Math.abs(y_array);
-		float y_array_compare2 = y_array2 - limitValue;
-		float y_array_compare = y_array2 + limitValue;
-		
-		float z_array = sensorWerte[2];
-		float z_array2 = Math.abs(z_array);
-		float z_array_compare2 = z_array2 - limitValue;
-		float z_array_compare = z_array2 + limitValue;
-		
-		if(xmax > x_array_compare || ymax > y_array_compare || ymax < y_array_compare2 || zmax > z_array_compare || zmax < z_array_compare2){
-			sensor_Check = true;
-		}
-		else if(xmax < x_array_compare || ymax < y_array_compare){
-			sensor_Check = false;
-		}
-	
-		sensorTest();
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	//Überprüfung: wurde der Aktivierbutton gedrückt UND ein Sensor Grenzwert überschritten?
-	// -> Sound auslösen
-	public void sensorTest(){
-		if(check == true && sensor_Check == true){
-			alarm.startSound();
-			alarm.startVibration(vibrationActivated);
-			alarm.startFlashLight();
-		}
-	}
 
 
 	@Override
@@ -286,6 +262,29 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		return super.onOptionsItemSelected(item);
 	}
+
+
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		
+		
+		Log.i("infos", "onBackPressed()");
+		Intent notifIntent = new Intent(this, CreateNotificationService.class);
+		stopService(notifIntent);
+				
+		if (alarm.isAlarmActivated() == true) {
+			Log.i("infos", "App zwangsbeendet");		// Zwangsbeenden, wenn Alarm noch aktiv
+			System.exit(0);	
+		}
+		else {
+			Log.i("infos", "App normal beendet");
+			this.finish(); 								// Activity normal schließen, wenn Alarm nicht aktiv
+		}
+	}
+	
+	
 		
 
 }

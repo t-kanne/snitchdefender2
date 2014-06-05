@@ -23,6 +23,7 @@ public class Alarm  {
 	private Vibrator vibrator;
 	private Camera cam;
 	private boolean isFlashOn = false;
+	private boolean isAlarmActivated;
 	
 	
 	public Alarm (Context context){
@@ -47,12 +48,7 @@ public class Alarm  {
 	
 	@TargetApi(Build.VERSION_CODES.FROYO)
 	public void startSound(){
-		/*if (loaded = false){
-			loadSound();
-			startSound();
-			Log.i("infos", "loaded = false");
-		}
-		*/
+
 		if (loaded && activated) {
 			activated = false;
 			
@@ -68,12 +64,15 @@ public class Alarm  {
 		if (!loaded){
 			Log.i("infos","nicht loaded");
 		}
+		
+		isAlarmActivated = true;
     }
     
     public void stopSound() {
     	sp.stop(soundIdTemp);
     	activated = true;
     	Log.i("infos", "Stopp");
+    	isAlarmActivated = false;
     }
     
     public void startVibration(boolean vibrationActivated) {
@@ -96,14 +95,10 @@ public class Alarm  {
     	vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
     	vibrator.vibrate(60);
     }
-    
-    
-    
-    
-    
-    public void startFlashLight(){
+      
+    public void startFlashLight(boolean flashlightActivated){
     	try{
-    		if(isFlashOn == false){
+    		if(isFlashOn == false && flashlightActivated == true){
     			cam = Camera.open();     
     			Parameters params = cam.getParameters();
     			params.setFlashMode(Parameters.FLASH_MODE_ON);
@@ -130,6 +125,10 @@ public class Alarm  {
     	isFlashOn = false;
         Log.i("infos","led aus");
     	}
+    }
+    
+    public boolean isAlarmActivated () {
+    	return isAlarmActivated;
     }
    
     
