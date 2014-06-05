@@ -95,7 +95,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		alarm = new Alarm(context);
 		alarm.loadSound();
-	
+		
+		Intent notifIntent = new Intent(this, CreateNotificationService.class);
+		startService(notifIntent);
 	}
 
 
@@ -114,7 +116,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		vibrationActivated = preferences.getBoolean("notifications_vibrate_key", true);
 		Log.i("infos", "(sp) vibrationActivated: " + vibrationActivated);
 		
-		
+/*		
 		//###########################################
 		//NOCH AUSLAGERN
 		//###########################################
@@ -137,9 +139,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    nm.notify(notifyID, n);
 	    
 	    //#############################################
+*/
+	
 	}
-
-
 
 	public void onAccuracyChanged(Sensor sensor,int accuracy){}
 	

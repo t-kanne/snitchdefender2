@@ -14,10 +14,7 @@ public class CreditsActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_credits);
-		credits = (TextView) findViewById(R.string.credits_text);
-		
-		Intent notifIntent = new Intent(this, CreateNotificationActivity.class);
-		startActivity(notifIntent);
+		credits = (TextView) findViewById(R.string.credits_text);	
 	}
 	
 	
