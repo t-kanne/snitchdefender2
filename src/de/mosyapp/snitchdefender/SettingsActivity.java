@@ -8,6 +8,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.util.Log;
 
+@SuppressWarnings("deprecation")
 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
@@ -25,13 +26,13 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
         Log.i("infos", "(onCreate) limitValue: "+listPrefSelected);
     }
 	
-    protected void onResume() {
+	protected void onResume() {
         super.onResume();
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
     }
-    
-    protected void onPause() {
+
+	protected void onPause() {
         super.onPause();	
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
