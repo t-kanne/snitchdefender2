@@ -23,7 +23,6 @@ public class CreateNotificationActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.fragment_create_notification);
 
-    this.setVisible(false);
     
     Intent intent = new Intent(this, MainActivity.class);
     PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -41,11 +40,11 @@ public class CreateNotificationActivity extends Activity {
     Notification n = builder.build();
     
     nm.notify(1, n);
-    
+  
   }
   
 
-
+/*
 public void createNotification(View view) {
     // Prepare intent which is triggered if the
     // notification is selected
@@ -67,4 +66,5 @@ public void createNotification(View view) {
     nm.notify(1, n);
 
   }
+*/
 } 

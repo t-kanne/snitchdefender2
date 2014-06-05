@@ -38,9 +38,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements SensorEventListener {
 	private SensorManager sensorManager;
 	SettingsActivity settingsActivity;
-	private static boolean isSnitchActivated;
 	
-	//private MediaPlayer mp; 
 	Alarm alarm;
 	Context context = this;
 	
@@ -66,12 +64,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
-		settingsActivity = new SettingsActivity();
-		isSnitchActivated = false;
-		
-		Log.i("infos","limitValue: "+limitValue);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
+		
+		settingsActivity = new SettingsActivity();
 		
 		imageLine1 = (ImageView) findViewById(R.id.imageLine1);
 		imageLogo1 = (ImageView) findViewById(R.id.imageLogo1);
@@ -100,8 +96,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		alarm = new Alarm(context);
 		alarm.loadSound();
 	
-		
-		}
+	}
 
 
 	@Override
@@ -118,6 +113,30 @@ public class MainActivity extends Activity implements SensorEventListener {
 		// Aufrufen, ob Vibration in den Einstellungen aktiviert ist
 		vibrationActivated = preferences.getBoolean("notifications_vibrate_key", true);
 		Log.i("infos", "(sp) vibrationActivated: " + vibrationActivated);
+		
+		
+		//###########################################
+		//NOCH AUSLAGERN
+		//###########################################
+	    Intent intent = new Intent(this, MainActivity.class);
+	    PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_NO_CREATE);
+
+	    NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+	    
+	    int notifyID = 1;
+	    
+	    Resources res = this.getResources();
+	    NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+	    builder.setContentIntent(pIntent)
+    	.setContentTitle("Snitch Defender")
+        .setContentText("Für Diebstahlschutz bitte berühren").setSmallIcon(R.drawable.sd_icon)
+        .setContentIntent(pIntent);
+	    
+	    Notification n = builder.build();
+	    
+	    nm.notify(notifyID, n);
+	    
+	    //#############################################
 	}
 
 
@@ -191,7 +210,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 				}
 				else if(check == true){
 					Log.i("infos", "Gleich wird gestoppt");
-					isSnitchActivated = false;
 					alarm.stopSound();
 					alarm.stopVibration(vibrationActivated);
 					alarm.stopFlashLight();
@@ -243,7 +261,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 	// -> Sound auslösen
 	public void sensorTest(){
 		if(check == true && sensor_Check == true){
-			isSnitchActivated = true;
 			alarm.startSound();
 			alarm.startVibration(vibrationActivated);
 			alarm.startFlashLight();
@@ -267,7 +284,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
+		
 
 }
