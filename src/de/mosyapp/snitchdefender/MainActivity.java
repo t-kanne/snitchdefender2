@@ -8,6 +8,8 @@ produced by appBert & programmierKanne
 package de.mosyapp.snitchdefender;
 
 
+import java.util.Timer;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -20,6 +22,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -30,6 +33,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import java.util.concurrent.TimeUnit;
 
 @SuppressLint("NewApi")
 public class MainActivity extends Activity implements SensorEventListener {
@@ -37,6 +41,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 	// Variablen für den Benachrichtigungsservice
 	private ServiceConnection mConnection;
 	private boolean mIsBound;
+	private CountDownTimer activateTimer;
+	
+	private long startTime = 6 * 1000;
+	private long interval = 1000;
+	private boolean onFinishCheck;
+	private long onTickTime;
 	
 	// Variablen für Alarmverwaltung
 	private Alarm alarm;
@@ -59,6 +69,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	TextView xValue, yValue, zValue, check1; 
 	TextView max_view_x, max_view_y, max_view_z; 
 	TextView xArray, yArray, zArray; 
+	TextView countdown;
 
 	
 	@Override
@@ -93,6 +104,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		max_view_z = (TextView)findViewById(R.id.max_z_text);
 		
 		check1 = (TextView)findViewById(R.id.check1);
+		countdown = (TextView)findViewById(R.id.countdown);
 		
 		xArray = (TextView)findViewById(R.id.xArray);
 		yArray = (TextView)findViewById(R.id.yArray);
@@ -107,8 +119,30 @@ public class MainActivity extends Activity implements SensorEventListener {
 		addButtonListener();
 		
 		alarm = new Alarm(this);
-		alarm.loadSound();			
+		alarm.loadSound();	
+
 	}
+	
+	/*
+	public class activateCountDownTimer extends CountDownTimer {
+        public activateCountDownTimer(long startTime, long interval) {
+            super(startTime, interval);  
+        }
+
+        @Override
+        public void onFinish() { 
+        	countdown.setText("aktiviert");
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {   
+        	countdown.setText("countdown: " + millisUntilFinished / 1000);
+        }
+
+    }
+	*/
+	
+	
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
 	@Override
@@ -221,6 +255,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 	
+	
 	public void addButtonListener() { 
 		imageButton1 = (ImageButton) findViewById(R.id.imageButton1);
 		imageButton1.setOnClickListener(new OnClickListener() {
@@ -236,11 +271,21 @@ public class MainActivity extends Activity implements SensorEventListener {
 				zArray.setText("zA: "+ sensorWerte[2]);
 				Log.i("infos", "sensorwerte ins array geladen");
 				
+				activateTimer = new activateCountDownTimer(startTime, interval);
 				
+				activateTimer.start();
+				
+				getTime();
+				
+				if (activateTimer.onFinishCheck() == true) {
+					countdown.setText("aktiviert");
+					Log.i("main", "onFinishCheck:" + onFinishCheck);
+				}
+
 				if(buttonPressed == false){
 					buttonPressed = true;
 					alarm.startVibrationOnActivate();
-					updateNotification(true);
+					updateNotification(true);	
 				}
 				else if(buttonPressed == true){
 					Log.i("infos", "Gleich wird gestoppt");
@@ -253,6 +298,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 			}
 		});
 	}
+	
+	public void getTime(){
+		long onTickTime = ((activateCountDownTimer) activateTimer).getTick1();
+		Log.i("main", "countTime in main: " + onTickTime);
+		countdown.setText("countdown: " + onTickTime);
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

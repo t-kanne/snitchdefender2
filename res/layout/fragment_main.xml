@@ -120,8 +120,18 @@
          android:layout_height="wrap_content"
          android:layout_below="@+id/max_z_text"
          android:layout_centerHorizontal="true"
-         android:layout_marginTop="20dp"
+         android:layout_marginTop="40dp"
          android:background="@drawable/new_button"  />
+     
+      <TextView
+        android:id="@+id/countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButton1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="3dp"
+        android:text="countdown: "
+        android:textSize="13sp" />
 
 </RelativeLayout>
 
