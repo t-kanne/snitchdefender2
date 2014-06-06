@@ -130,7 +130,7 @@
         android:layout_below="@+id/imageButton1"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="3dp"
-        android:text="countdown: "
+        android:text=""
         android:textSize="13sp" />
 
 </RelativeLayout>

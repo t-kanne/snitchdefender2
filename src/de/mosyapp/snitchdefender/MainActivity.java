@@ -8,13 +8,13 @@ produced by appBert & programmierKanne
 package de.mosyapp.snitchdefender;
 
 
-import java.util.Timer;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
@@ -33,7 +33,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.util.concurrent.TimeUnit;
 
 @SuppressLint("NewApi")
 public class MainActivity extends Activity implements SensorEventListener {
@@ -43,10 +42,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private boolean mIsBound;
 	private CountDownTimer activateTimer;
 	
-	private long startTime = 6 * 1000;
-	private long interval = 1000;
-	private boolean onFinishCheck;
-	private long onTickTime;
+	//Variablen für den Aktivierungscountdown
+	private boolean hasStarted = false;
+	private boolean countDownCheck = false;
 	
 	// Variablen für Alarmverwaltung
 	private Alarm alarm;
@@ -120,35 +118,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		alarm = new Alarm(this);
 		alarm.loadSound();	
-
 	}
-	
-	/*
-	public class activateCountDownTimer extends CountDownTimer {
-        public activateCountDownTimer(long startTime, long interval) {
-            super(startTime, interval);  
-        }
-
-        @Override
-        public void onFinish() { 
-        	countdown.setText("aktiviert");
-        }
-
-        @Override
-        public void onTick(long millisUntilFinished) {   
-        	countdown.setText("countdown: " + millisUntilFinished / 1000);
-        }
-
-    }
-	*/
-	
-	
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
 	@Override
 	protected void onStart() {
 		super.onStart();
-		
 		bindService(new Intent(this, CreateNotificationService.class), mConnection, Context.BIND_AUTO_CREATE);
 		mIsBound = true;
 		Log.i("infos", "mIsBound: " + mIsBound);
@@ -173,6 +148,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 		// Aufrufen, ob LED in den Einstellungen aktiviert ist
 		flashlightActivated = preferences.getBoolean("notifications_flashlight_key", true);
 		Log.i("prefs", "(sp) flashlightActivated: " + flashlightActivated);
+		
+		super.onResume();        
+	    registerReceiver(br, new IntentFilter(activateCountDownTimer.COUNTDOWN_BR));
 	}
 
 	
@@ -241,20 +219,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 		else if(xmax < x_array_compare || ymax < y_array_compare){
 			sensor_Check = false;
 		}
-	
 		activateAlarms();	
 	}
 	
 	//Überprüfung: wurde der Aktivierbutton gedrückt UND ein Sensor Grenzwert überschritten?
 	// -> Sound auslösen
 	public void activateAlarms(){
-		if(buttonPressed == true && sensor_Check == true){
+		if(buttonPressed == true && sensor_Check == true && countDownCheck == true){
 			alarm.startSound();
 			alarm.startVibration(vibrationActivated);
 			alarm.startFlashLight(flashlightActivated);
 		}
 	}
-	
 	
 	public void addButtonListener() { 
 		imageButton1 = (ImageButton) findViewById(R.id.imageButton1);
@@ -270,18 +246,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 				yArray.setText("yA: "+ sensorWerte[1]);
 				zArray.setText("zA: "+ sensorWerte[2]);
 				Log.i("infos", "sensorwerte ins array geladen");
-				
-				activateTimer = new activateCountDownTimer(startTime, interval);
-				
-				activateTimer.start();
-				
-				getTime();
-				
-				if (activateTimer.onFinishCheck() == true) {
-					countdown.setText("aktiviert");
-					Log.i("main", "onFinishCheck:" + onFinishCheck);
-				}
 
+				startCountDownTimer();
+				
 				if(buttonPressed == false){
 					buttonPressed = true;
 					alarm.startVibrationOnActivate();
@@ -294,17 +261,65 @@ public class MainActivity extends Activity implements SensorEventListener {
 					alarm.stopFlashLight();
 					buttonPressed = false;
 					updateNotification(false);
+					countDownCheck = false;
 				}
 			}
 		});
 	}
 	
-	public void getTime(){
-		long onTickTime = ((activateCountDownTimer) activateTimer).getTick1();
-		Log.i("main", "countTime in main: " + onTickTime);
-		countdown.setText("countdown: " + onTickTime);
+	
+	public void startCountDownTimer(){
+		if(hasStarted == false){
+			startService(new Intent(this, activateCountDownTimer.class));
+			hasStarted = true;
+		}
+		else if(hasStarted == true){
+			stopService(new Intent(this, activateCountDownTimer.class));
+			countdown.setText("deaktiviert!");
+			super.onDestroy();
+			hasStarted = false;
+		}
 	}
 	
+	private BroadcastReceiver br = new BroadcastReceiver() {
+	    @Override
+	    public void onReceive(Context context, Intent intent) {            
+	        setActivationCountDown(intent);
+	        setActivationCountDown2(intent);
+	    }
+	};
+	
+	private void setActivationCountDown(Intent intent) {
+	    if (intent.getExtras() != null) {
+	        long millisUntilFinished = intent.getLongExtra("countdown", 0);
+	        long countDownFinal = intent.getLongExtra("countdownFinished", 0);
+	        countdown.setText("Aktivierung in " + millisUntilFinished + " Sekunden!");
+	        Log.i("infos","count vor if: " + countDownFinal);    
+	        if(countDownFinal == 12){
+	        	Log.i("infos","count nach if: " + countDownFinal);      
+	        	 countdown.setText("aktiviert!");
+	        	 //alarm.startVibrationOnActivate();
+	        }
+	    }
+	}
+	
+	private void setActivationCountDown2(Intent intent) {
+		if (intent.getExtras() != null) {
+	        long countdownFinished2 = intent.getLongExtra("countdownFinished2", 0); 
+	        if(countdownFinished2 == 22){
+	        	Log.i("infos","countdownfinished2:" + countdownFinished2);   
+	        	Log.i("infos","funktioniert!!");   
+	        	countdown.setText("");
+	        	countDownCheck = true;
+	        }
+	    }
+	}
+	
+	@Override
+	public void onPause() {
+	    super.onPause();
+	    unregisterReceiver(br);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -324,7 +339,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		super.onBackPressed();
 		
 		Log.i("main", "Hier muss noch ein Bestätigungsdialog kommen");
@@ -347,6 +361,14 @@ public class MainActivity extends Activity implements SensorEventListener {
 			Log.i("infos", "App normal beendet");
 			this.finish(); 								// Activity normal schließen, wenn Alarm nicht aktiv
 		}
+	}
+	
+	public void onStop() {
+	    try {
+	        unregisterReceiver(br);
+	    } catch (Exception e) {
+	    }
+	    super.onStop();
 	}
 
 	public void updateNotification(boolean isActive) {

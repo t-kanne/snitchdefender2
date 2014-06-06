@@ -1,59 +1,72 @@
 package de.mosyapp.snitchdefender;
 
+import android.app.Service;
+import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.IBinder;
 import android.util.Log;
 
+public class activateCountDownTimer extends Service {
 
-
-public class activateCountDownTimer extends CountDownTimer {
-	
-	private boolean onFinishCheck = false;
-	private long countTime;
-	
-	
-    public activateCountDownTimer(long startTime, long interval) {
-        super(startTime, interval);  
-        onFinishCheck = false;
-       
-        Log.i("main", "werte in timerklasse: " + startTime);
-    }
-
-    @Override
-    public void onFinish() { 
-    	onFinishCheck = true;
-    }
-    
-    public boolean onFinishCheck () {
-    		return onFinishCheck;
-    }
+    public static final String COUNTDOWN_BR = "de.mosyapp.snitchdefender.countdown_br";
+    Intent bi = new Intent(COUNTDOWN_BR);
+    CountDownTimer cdt = null;
+    CountDownTimer cdt2 = null;
+    CountDownTimer cdt3 = null;
+    private int count;
    
 
-    
-    
-    public void onTick(long millisUntilFinished){
-     
-    }
-    
-    
-    public long onTick1(long millisUntilFinished) {   
-    	countTime = millisUntilFinished / 1000;
-    	//countdown.setText("countdown: " + millisUntilFinished / 1000);
-    	Log.i("main", "countTime in countklasse: " + countTime);
-    	return countTime;
-    }
-    
-    public long getTick1(){
-    	return countTime;
-    }
-    
-    /*
-    public long onTickCheck(){
-    	return countTime;
-    }
-    */
-    
-    public void Cancel(){
-    	
-    }
+    @Override
+        public void onCreate() {       
+            super.onCreate();
 
+            cdt = new CountDownTimer(5200, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                	millisUntilFinished = millisUntilFinished / 1000;  
+                    bi.putExtra("countdown", millisUntilFinished);
+                    sendBroadcast(bi);
+                }
+
+                @Override
+                public void onFinish() {
+                	long count = 12;
+                	bi.putExtra("countdownFinished", count);
+                	sendBroadcast(bi);
+                    delayCounter();
+                }
+            };
+            cdt.start();
+        }
+
+    	public void delayCounter(){
+    		
+    		cdt2 = new CountDownTimer(1000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {	}
+                @Override
+                public void onFinish() {
+                	long count = 22;
+                	bi.putExtra("countdownFinished2", count);
+                	sendBroadcast(bi);
+                }
+            };
+            cdt2.start();
+    	}
+    
+        @Override
+        public void onDestroy() {
+            cdt.cancel();
+            super.onDestroy();
+        }
+
+        @Override
+        public int onStartCommand(Intent intent, int flags, int startId) {       
+            return super.onStartCommand(intent, flags, startId);
+        }
+
+        @Override
+        public IBinder onBind(Intent arg0) {       
+            return null;
+        }
 }
