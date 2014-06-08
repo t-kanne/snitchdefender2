@@ -14,6 +14,7 @@ public class activateCountDownTimer extends Service {
     CountDownTimer cdt2 = null;
     CountDownTimer cdt3 = null;
     private int count;
+    private Alarm alarm;
    
 
     @Override
@@ -40,7 +41,8 @@ public class activateCountDownTimer extends Service {
         }
 
     	public void delayCounter(){
-    		
+    		alarm = new Alarm(this);
+    		alarm.startVibrationOnActivate();
     		cdt2 = new CountDownTimer(1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {	}

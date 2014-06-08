@@ -289,6 +289,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    }
 	};
 	
+	
+	
 	private void setActivationCountDown(Intent intent) {
 	    if (intent.getExtras() != null) {
 	        long millisUntilFinished = intent.getLongExtra("countdown", 0);
