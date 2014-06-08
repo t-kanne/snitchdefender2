@@ -6,7 +6,7 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 
-public class activateCountDownTimer extends Service {
+public class ActivateCountDownTimer extends Service {
 
     public static final String COUNTDOWN_BR = "de.mosyapp.snitchdefender.countdown_br";
     Intent bi = new Intent(COUNTDOWN_BR);

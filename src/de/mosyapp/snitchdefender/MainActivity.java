@@ -150,7 +150,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		Log.i("prefs", "(sp) flashlightActivated: " + flashlightActivated);
 		
 		super.onResume();        
-	    registerReceiver(br, new IntentFilter(activateCountDownTimer.COUNTDOWN_BR));
+	    registerReceiver(br, new IntentFilter(ActivateCountDownTimer.COUNTDOWN_BR));
 	}
 
 	
@@ -237,16 +237,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 		imageButton1.setOnClickListener(new OnClickListener() {
  
 			public void onClick(View v) {					
-			 //Speichern der aktuell gemessen Sensorwerte in ein Array
-				sensorWerte[0] = x;
-				sensorWerte[1] = y;
-				sensorWerte[2] = z;
-			
-				xArray.setText("xA: "+ sensorWerte[0]);
-				yArray.setText("yA: "+ sensorWerte[1]);
-				zArray.setText("zA: "+ sensorWerte[2]);
-				Log.i("infos", "sensorwerte ins array geladen");
-
+				
+				// Nach dem Countdown-Timer werden aktuelle Positionsdaten gespeichert.
+				// --> ausgelagert in setActualSensorData ()
 				startCountDownTimer();
 				
 				if(buttonPressed == false){
@@ -270,11 +263,11 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	public void startCountDownTimer(){
 		if(hasStarted == false){
-			startService(new Intent(this, activateCountDownTimer.class));
+			startService(new Intent(this, ActivateCountDownTimer.class));
 			hasStarted = true;
 		}
 		else if(hasStarted == true){
-			stopService(new Intent(this, activateCountDownTimer.class));
+			stopService(new Intent(this, ActivateCountDownTimer.class));
 			countdown.setText("deaktiviert!");
 			super.onDestroy();
 			hasStarted = false;
@@ -301,6 +294,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	        	Log.i("infos","count nach if: " + countDownFinal);      
 	        	 countdown.setText("aktiviert!");
 	        	 //alarm.startVibrationOnActivate();
+	        	 setActualSensorData();
 	        }
 	    }
 	}
@@ -313,8 +307,21 @@ public class MainActivity extends Activity implements SensorEventListener {
 	        	Log.i("infos","funktioniert!!");   
 	        	countdown.setText("");
 	        	countDownCheck = true;
+	        	setActualSensorData();
 	        }
 	    }
+	}
+	
+	private void setActualSensorData () {
+		 //Speichern der aktuell gemessen Sensorwerte in ein Array
+			sensorWerte[0] = x;
+			sensorWerte[1] = y;
+			sensorWerte[2] = z;
+		
+			xArray.setText("xA: "+ sensorWerte[0]);
+			yArray.setText("yA: "+ sensorWerte[1]);
+			zArray.setText("zA: "+ sensorWerte[2]);
+			Log.i("infos", "sensorwerte ins array geladen");
 	}
 	
 	@Override

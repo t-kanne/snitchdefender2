@@ -49,7 +49,7 @@
 		</service>
 		
 		<service 
-		    android:name="de.mosyapp.snitchdefender.activateCountDownTimer" >
+		    android:name="de.mosyapp.snitchdefender.ActivateCountDownTimer" >
 		</service>
 		
 		
