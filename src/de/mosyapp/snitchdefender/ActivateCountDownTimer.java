@@ -59,6 +59,7 @@ public class ActivateCountDownTimer extends Service {
         @Override
         public void onDestroy() {
             cdt.cancel();
+            Log.i("ActivateCountDownTimer", "onDestroy() aufgerufen");
             super.onDestroy();
         }
 

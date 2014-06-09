@@ -252,6 +252,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 					alarm.stopSound();
 					alarm.stopVibration(vibrationActivated);
 					alarm.stopFlashLight();
+					alarm.startVibrationOnActivate();
 					buttonPressed = false;
 					updateNotification(false);
 					countDownCheck = false;
