@@ -43,6 +43,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	//Variablen für den Aktivierungscountdown
 	private boolean hasStarted = false;
 	private boolean countDownCheck = false;
+	private CountdownReceiver cdr;
+	private IntentFilter intentFilter;
+	private boolean isReceiverActive = false;
 	
 	// Variablen für Alarmverwaltung
 	private Alarm alarm;
@@ -78,12 +81,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 			@Override
 			public void onServiceConnected(ComponentName className, IBinder service) {
 				((CreateNotificationService.LocalBinder)service).getService();
-				Log.i("CreditsActivity", "service connected");
+				Log.i("main", "notificationservice connected");
 			}
 			
 			@Override
 			public void onServiceDisconnected(ComponentName arg0) {
-				Log.i("CreditsActivity", "service disconnected");
+				Log.i("main", "notificationservice disconnected");
 			}
 		};
 		
@@ -116,6 +119,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		alarm = new Alarm(this);
 		alarm.loadSound();	
+		
+		cdr = new CountdownReceiver();
+		intentFilter = new IntentFilter(ActivateCountDownTimer.COUNTDOWN_BR);
+		registerReceiver(cdr, intentFilter);
 	}
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
@@ -131,7 +138,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		
+		
 		// Einstellungen aufrufen aus SettingsActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		
@@ -147,8 +155,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		flashlightActivated = preferences.getBoolean("notifications_flashlight_key", true);
 		Log.i("prefs", "(sp) flashlightActivated: " + flashlightActivated);
 		
-		super.onResume();        
-	    registerReceiver(new CountdownReceiver(), new IntentFilter(ActivateCountDownTimer.COUNTDOWN_BR));
+		registerReceiver(cdr, intentFilter);
+	   
 	}
 
 	
@@ -243,7 +251,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 				if(buttonPressed == false){
 					buttonPressed = true;
 					alarm.startVibrationOnActivate();
-					updateNotification(true);	
+					updateNotification(true);					
 				}
 				else if(buttonPressed == true){
 					Log.i("infos", "Gleich wird gestoppt");
@@ -268,7 +276,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 		else if(hasStarted == true){
 			stopService(new Intent(this, ActivateCountDownTimer.class));
 			countdown.setText("deaktiviert!");
-			super.onDestroy();
 			hasStarted = false;
 		}
 	}
@@ -324,6 +331,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onPause() {
 	    super.onPause();
+	    //unregisterReceiver(cdr);
 	}
 
 	@Override
@@ -346,6 +354,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void onBackPressed() {
 		super.onBackPressed();
 		
+		//unregisterReceiver(cdr);
+		stopService(new Intent(this, ActivateCountDownTimer.class));
+		this.onDestroy();
 		Log.i("main", "Hier muss noch ein Bestätigungsdialog kommen");
 	}
 	
@@ -353,7 +364,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onDestroy() {	
 		super.onDestroy();
-
+		Log.i("main", "onDestroy() aufgerufen");
+		
+		
+		try {
+			unregisterReceiver(cdr);
+		} catch (IllegalArgumentException e) {
+			Log.i("main", "Receiver nicht registriert");
+		}
+		
 		if (mIsBound) {
 			unbindService(mConnection);					// Benachrichtigung ausschalten
 			mIsBound = false;
@@ -368,13 +387,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 	
-	public void onStop() {
-	    try {
-	        unregisterReceiver(new CountdownReceiver());
-	    } catch (Exception e) {
-	    }
-	    super.onStop();
-	}
 
 	public void updateNotification(boolean isActive) {
 		Intent intent = new Intent (MainActivity.this, CreateNotificationService.class);
