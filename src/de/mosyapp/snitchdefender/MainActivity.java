@@ -22,7 +22,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -40,7 +39,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 	// Variablen für den Benachrichtigungsservice
 	private ServiceConnection mConnection;
 	private boolean mIsBound;
-	private CountDownTimer activateTimer;
 	
 	//Variablen für den Aktivierungscountdown
 	private boolean hasStarted = false;
@@ -150,7 +148,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		Log.i("prefs", "(sp) flashlightActivated: " + flashlightActivated);
 		
 		super.onResume();        
-	    registerReceiver(br, new IntentFilter(ActivateCountDownTimer.COUNTDOWN_BR));
+	    registerReceiver(new CountdownReceiver(), new IntentFilter(ActivateCountDownTimer.COUNTDOWN_BR));
 	}
 
 	
@@ -275,18 +273,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 	
-	private BroadcastReceiver br = new BroadcastReceiver() {
-	    @Override
-	    public void onReceive(Context context, Intent intent) {            
+	public class CountdownReceiver extends BroadcastReceiver {
+		@Override
+	    public void onReceive(Context context, Intent intent) {
 	        setActivationCountDown(intent);
 	        setActivationCountDown2(intent);
 	    }
-	};
-	
+	}
 	
 	
 	private void setActivationCountDown(Intent intent) {
 	    if (intent.getExtras() != null) {
+	    	
 	        long millisUntilFinished = intent.getLongExtra("countdown", 0);
 	        long countDownFinal = intent.getLongExtra("countdownFinished", 0);
 	        countdown.setText("Aktivierung in " + millisUntilFinished + " Sekunden!");
@@ -294,8 +292,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 	        if(countDownFinal == 12){
 	        	Log.i("infos","count nach if: " + countDownFinal);      
 	        	 countdown.setText("aktiviert!");
-	        	 //alarm.startVibrationOnActivate();
-	        	 setActualSensorData();
 	        }
 	    }
 	}
@@ -313,7 +309,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    }
 	}
 	
-	private void setActualSensorData () {
+	public void setActualSensorData () {
 		 //Speichern der aktuell gemessen Sensorwerte in ein Array
 			sensorWerte[0] = x;
 			sensorWerte[1] = y;
@@ -328,7 +324,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onPause() {
 	    super.onPause();
-	    unregisterReceiver(br);
 	}
 
 	@Override
@@ -375,7 +370,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	public void onStop() {
 	    try {
-	        unregisterReceiver(br);
+	        unregisterReceiver(new CountdownReceiver());
 	    } catch (Exception e) {
 	    }
 	    super.onStop();

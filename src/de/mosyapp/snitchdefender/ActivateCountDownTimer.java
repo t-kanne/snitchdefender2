@@ -13,14 +13,13 @@ public class ActivateCountDownTimer extends Service {
     CountDownTimer cdt = null;
     CountDownTimer cdt2 = null;
     CountDownTimer cdt3 = null;
-    private int count;
     private Alarm alarm;
    
 
     @Override
         public void onCreate() {       
             super.onCreate();
-
+           
             cdt = new CountDownTimer(5200, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
