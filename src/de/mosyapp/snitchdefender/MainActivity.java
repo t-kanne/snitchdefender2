@@ -333,6 +333,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	public void onPause() {
 	    super.onPause();
+	    Log.i("main", "onPause() aufgerufen");
 	    //unregisterReceiver(cdr);
 	}
 
@@ -362,9 +363,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	// Beenden der Activity sorgt für folgende Dinge
 	@Override
-	public void onStop() {	
-		super.onStop();
-		Log.i("main", "onStop() aufgerufen");
+	public void onDestroy() {	
+		super.onDestroy();
+		Log.i("main", "onDestroy() aufgerufen");
 		
 		
 		try {
