@@ -52,6 +52,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private boolean vibrationActivated;				// Check, ob Vibration in den Einstellungen eingeschaltet ist
 	private boolean flashlightActivated;        	// Check, ob die LED in den Einstellungen eingeschaltet ist
 	private boolean buttonPressed = false;			// Check Variable sobald der Button gedrückt wurde
+	private boolean closeThisApp;					// Wird momentan noch benötigt, da sich sonst aktivierter Alarm nicht per Backbutton beenden lässt
 	
 	// Sensorberechnungen
 	private SensorManager sensorManager;
@@ -231,7 +232,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	//Überprüfung: wurde der Aktivierbutton gedrückt UND ein Sensor Grenzwert überschritten?
 	// -> Sound auslösen
 	public void activateAlarms(){
-		if(buttonPressed == true && sensor_Check == true && countDownCheck == true){
+		if(buttonPressed && sensor_Check && countDownCheck && closeThisApp == false){
 			alarm.startSound();
 			alarm.startVibration(vibrationActivated);
 			alarm.startFlashLight(flashlightActivated);
@@ -258,8 +259,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 					alarm.stopSound();
 					alarm.stopVibration(vibrationActivated);
 					alarm.stopFlashLight();
-					alarm.startVibrationOnActivate();
+			
 					buttonPressed = false;
+					alarm.startVibrationOnActivate();
 					updateNotification(false);
 					countDownCheck = false;
 				}
@@ -354,17 +356,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void onBackPressed() {
 		super.onBackPressed();
 		
-		//unregisterReceiver(cdr);
 		stopService(new Intent(this, ActivateCountDownTimer.class));
-		this.onDestroy();
 		Log.i("main", "Hier muss noch ein Bestätigungsdialog kommen");
 	}
 	
 	// Beenden der Activity sorgt für folgende Dinge
 	@Override
-	public void onDestroy() {	
-		super.onDestroy();
-		Log.i("main", "onDestroy() aufgerufen");
+	public void onStop() {	
+		super.onStop();
+		Log.i("main", "onStop() aufgerufen");
 		
 		
 		try {
@@ -383,6 +383,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 		else {
 			Log.i("infos", "App normal beendet");
+			closeThisApp = true;
 			this.finish(); 								// Activity normal schließen, wenn Alarm nicht aktiv
 		}
 	}
@@ -391,8 +392,17 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void updateNotification(boolean isActive) {
 		Intent intent = new Intent (MainActivity.this, CreateNotificationService.class);
 		intent.putExtra("isDefendActive", isActive);
-		unbindService(mConnection);
-		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+		
+		try {
+			unbindService(mConnection);
+		} 
+		catch (IllegalArgumentException e) {
+			bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+		}
+		finally {
+			bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+		}
+		
 	}
 	
 	@Override

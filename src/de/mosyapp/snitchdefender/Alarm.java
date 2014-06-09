@@ -43,7 +43,7 @@ public class Alarm  {
 	    	
 	    });
 	    soundId = sp.load(context, R.raw.sound1, 1);
-	    Log.i("infos", "Sound geladen");
+	    Log.i("alarm", "Sound geladen");
 	}
 	
 	@TargetApi(Build.VERSION_CODES.FROYO)
@@ -59,10 +59,10 @@ public class Alarm  {
 				soundIdTemp = sp.play(soundId, 1, 1, 1, 0, 1f);
 				sp.setLoop(soundIdTemp, -1);
 			}
-		    Log.i("infos", "Sound wird abgespielt. Id: "+soundIdTemp);
+		    Log.i("alarm", "Sound wird abgespielt. Id: "+soundIdTemp);
 	    }
 		if (!loaded){
-			Log.i("infos","nicht loaded");
+			Log.i("alarm","nicht loaded");
 		}
 		
 		isAlarmActivated = true;
@@ -71,7 +71,7 @@ public class Alarm  {
     public void stopSound() {
     	sp.stop(soundIdTemp);
     	activated = true;
-    	Log.i("infos", "Stopp");
+    	Log.i("alarm", "Stopp");
     	isAlarmActivated = false;
     }
     
@@ -110,10 +110,10 @@ public class Alarm  {
     			});
     			isFlashOn = true;
     		}
-    		 Log.i("infos","led an hat geklappt");
+    		 Log.i("alarm","led an hat geklappt");
     	}
     	catch(Exception e){
-    		Log.i("infos","led an hat nicht geklappt");
+    		Log.i("alarm","led an hat nicht geklappt");
     	}
     	
     }
@@ -123,7 +123,7 @@ public class Alarm  {
     	cam.stopPreview();
     	cam.release();
     	isFlashOn = false;
-        Log.i("infos","led aus");
+        Log.i("alarm","led aus");
     	}
     }
     
