@@ -44,7 +44,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private boolean hasStarted = false;
 	private boolean countDownCheck = false;
 	private CountdownReceiver cdr;
+	private CountdownReceiver cdr2;
 	private IntentFilter intentFilter;
+	private IntentFilter intentFilter2;
 	private boolean isReceiverActive = false;
 	
 	// Variablen für Alarmverwaltung
@@ -124,6 +126,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 		cdr = new CountdownReceiver();
 		intentFilter = new IntentFilter(ActivateCountDownTimer.COUNTDOWN_BR);
 		registerReceiver(cdr, intentFilter);
+		cdr2 = new CountdownReceiver();
+		intentFilter2 = new IntentFilter(DeactivateCountDownTimer.COUNTDOWN_BR);
+		registerReceiver(cdr2, intentFilter2);
 	}
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
@@ -139,7 +144,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
 		
 		// Einstellungen aufrufen aus SettingsActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -157,7 +161,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		Log.i("prefs", "(sp) flashlightActivated: " + flashlightActivated);
 		
 		registerReceiver(cdr, intentFilter);
-	   
+		registerReceiver(cdr2, intentFilter2);
 	}
 
 	
@@ -259,7 +263,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 					alarm.stopSound();
 					alarm.stopVibration(vibrationActivated);
 					alarm.stopFlashLight();
-			
+					
 					buttonPressed = false;
 					alarm.startVibrationOnActivate();
 					updateNotification(false);
@@ -268,16 +272,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 			}
 		});
 	}
-	
-	
+
 	public void startCountDownTimer(){
+	
 		if(hasStarted == false){
+			stopService(new Intent(this, DeactivateCountDownTimer.class));
 			startService(new Intent(this, ActivateCountDownTimer.class));
 			hasStarted = true;
 		}
 		else if(hasStarted == true){
 			stopService(new Intent(this, ActivateCountDownTimer.class));
 			countdown.setText("deaktiviert!");
+			startService(new Intent(this, DeactivateCountDownTimer.class));
 			hasStarted = false;
 		}
 	}
@@ -287,19 +293,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 	    public void onReceive(Context context, Intent intent) {
 	        setActivationCountDown(intent);
 	        setActivationCountDown2(intent);
+	        setDeactivationCountDown3(intent);
 	    }
 	}
-	
-	
+		
 	private void setActivationCountDown(Intent intent) {
 	    if (intent.getExtras() != null) {
-	    	
 	        long millisUntilFinished = intent.getLongExtra("countdown", 0);
 	        long countDownFinal = intent.getLongExtra("countdownFinished", 0);
-	        countdown.setText("Aktivierung in " + millisUntilFinished + " Sekunden!");
-	        Log.i("infos","count vor if: " + countDownFinal);    
-	        if(countDownFinal == 12){
-	        	Log.i("infos","count nach if: " + countDownFinal);      
+	        countdown.setText("Aktivierung in " + millisUntilFinished + " Sekunden!");      
+	        if(countDownFinal == 12){    
 	        	 countdown.setText("aktiviert!");
 	        }
 	    }
@@ -309,14 +312,25 @@ public class MainActivity extends Activity implements SensorEventListener {
 		if (intent.getExtras() != null) {
 	        long countdownFinished2 = intent.getLongExtra("countdownFinished2", 0); 
 	        if(countdownFinished2 == 22){
-	        	Log.i("infos","countdownfinished2:" + countdownFinished2);   
-	        	Log.i("infos","funktioniert!!");   
 	        	countdown.setText("");
 	        	countDownCheck = true;
 	        	setActualSensorData();
 	        }
 	    }
 	}
+	
+	
+	private void setDeactivationCountDown3(Intent intent) {
+		if (intent.getExtras() != null) {
+	        long deactivationCountDown = intent.getLongExtra("countDownOnFinish", 0); 
+	        if(deactivationCountDown == 33){  
+	        	countdown.setText("");
+	        	stopService(new Intent(this, DeactivateCountDownTimer.class));
+	        }
+	    }
+	}
+	
+	
 	
 	public void setActualSensorData () {
 		 //Speichern der aktuell gemessen Sensorwerte in ein Array

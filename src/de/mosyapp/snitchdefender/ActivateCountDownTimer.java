@@ -12,14 +12,13 @@ public class ActivateCountDownTimer extends Service {
     Intent bi = new Intent(COUNTDOWN_BR);
     CountDownTimer cdt = null;
     CountDownTimer cdt2 = null;
-    CountDownTimer cdt3 = null;
     private Alarm alarm;
    
 
     @Override
         public void onCreate() {       
             super.onCreate();
-           
+            Log.i("Activatecountdowntimer","onCreate()");
             cdt = new CountDownTimer(5200, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
