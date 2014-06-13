@@ -25,7 +25,7 @@ public class ActivateCountDownTimer extends Service {
     		Log.i("prefs", "(sp) countdownDuration: " + countdownDuration);
     		
             Log.i("Activatecountdowntimer","onCreate()");
-            cdt = new CountDownTimer(countdownDuration*1000, 1000) {
+            cdt = new CountDownTimer((countdownDuration*1000)+200, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                 	millisUntilFinished = millisUntilFinished / 1000;  
