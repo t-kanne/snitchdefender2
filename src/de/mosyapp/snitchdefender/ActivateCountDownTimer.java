@@ -2,8 +2,10 @@ package de.mosyapp.snitchdefender;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class ActivateCountDownTimer extends Service {
@@ -18,8 +20,12 @@ public class ActivateCountDownTimer extends Service {
     @Override
         public void onCreate() {       
             super.onCreate();
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+    		long countdownDuration = Long.parseLong(preferences.getString("countdown_key", "5"));
+    		Log.i("prefs", "(sp) countdownDuration: " + countdownDuration);
+    		
             Log.i("Activatecountdowntimer","onCreate()");
-            cdt = new CountDownTimer(5200, 1000) {
+            cdt = new CountDownTimer(countdownDuration*1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                 	millisUntilFinished = millisUntilFinished / 1000;  

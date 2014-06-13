@@ -6,16 +6,31 @@
     <string name="pref_header_general">Allgemeines</string>
 
     <string name="pref_movement_sensitivity_title">Bewegungsempfindlichkeit</string>
+    
     <string-array name="pref_movement_sensitivity_options">
-        <item>sehr empfindlich</item>
+        <item>hoch</item>
         <item>standard</item>
-        <item>nicht sehr empfindlich</item>
+        <item>niedrig</item>
     </string-array>
     
     <string-array name="pref_movement_sensitivity_values">
         <item>1</item>
         <item>3</item>
         <item>10</item>
+    </string-array>
+    
+    <string name="pref_countdown_title">Dauer des Aktivierungscountdown</string>
+    
+    <string-array name="pref_countdown_options">
+        <item>5 Sekunden</item>
+        <item>3 Sekunden</item>
+        <item>1 Sekunde</item>
+    </string-array>
+    
+    <string-array name="pref_countdown_values">
+        <item>5</item>
+        <item>3</item>
+        <item>1</item>
     </string-array>
  
 

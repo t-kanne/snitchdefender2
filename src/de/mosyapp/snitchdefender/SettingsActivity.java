@@ -19,11 +19,16 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
         SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
         
         //Einstellungen für die Bewegungsempfindlichkeit aufrufen und verarbeiten
-        ListPreference listPref = (ListPreference) findPreference("sensitivity_list");
-        String listPrefSelected = sp.getString("sensitivity_list", null);
+        ListPreference listPref = (ListPreference) findPreference("sensitivity_key");
+        String listPrefSelected = sp.getString("sensitivity_key", null);
         String listPrefEntry = (String) listPref.getEntry();
         listPref.setSummary(listPrefEntry);
-        Log.i("infos", "(onCreate) limitValue: "+listPrefSelected);
+        
+        //Einstellungen für die Countdowndauer aufrufen und verarbeiten
+        listPref = (ListPreference) findPreference("countdown_key");
+        listPrefSelected = sp.getString("countdown_key", null);
+        listPrefEntry = (String) listPref.getEntry();
+        listPref.setSummary(listPrefEntry);
     }
 	
 	protected void onResume() {

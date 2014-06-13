@@ -151,7 +151,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		// Aufrufen der Sensibilität aus den Einstellungen
-		limitValue = Float.parseFloat(preferences.getString("sensitivity_list", "3"));
+		limitValue = Float.parseFloat(preferences.getString("sensitivity_key", "3"));
 		Log.i("prefs", "(sp) limitValue: " + limitValue);
 
 		// Aufrufen, ob Vibration in den Einstellungen aktiviert ist

@@ -7,10 +7,19 @@
 	        android:defaultValue="3"
 	        android:entries="@array/pref_movement_sensitivity_options"
 	        android:entryValues="@array/pref_movement_sensitivity_values"
-	        android:key="sensitivity_list"
+	        android:key="sensitivity_key"
 	        android:negativeButtonText="@null"
 	        android:positiveButtonText="@null"
-	        android:title="@string/pref_movement_sensitivity_title" />  
+	        android:title="@string/pref_movement_sensitivity_title" />
+	    
+	    <ListPreference 
+	        android:defaultValue="5"
+	        android:entries="@array/pref_countdown_options"
+	        android:entryValues="@array/pref_countdown_values"
+	        android:key="countdown_key"
+	        android:negativeButtonText="@null"
+	        android:positiveButtonText="@null"
+	        android:title="@string/pref_countdown_title" />
     </PreferenceCategory>
     
 	<PreferenceCategory
