@@ -129,6 +129,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		cdr2 = new CountdownReceiver();
 		intentFilter2 = new IntentFilter(DeactivateCountDownTimer.COUNTDOWN_BR);
 		registerReceiver(cdr2, intentFilter2);
+		
+	
 	}
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
@@ -162,6 +164,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		registerReceiver(cdr, intentFilter);
 		registerReceiver(cdr2, intentFilter2);
+		
+		Log.i("main", "onresume()");
+		//startService(new Intent(this, TheService.class));
 	}
 
 	
@@ -291,12 +296,14 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public class CountdownReceiver extends BroadcastReceiver {
 		@Override
 	    public void onReceive(Context context, Intent intent) {
+			
 	        setActivationCountDown(intent);
 	        setActivationCountDown2(intent);
 	        setDeactivationCountDown3(intent);
 	    }
 	}
-		
+
+	
 	private void setActivationCountDown(Intent intent) {
 	    if (intent.getExtras() != null) {
 	        long millisUntilFinished = intent.getLongExtra("countdown", 0);
@@ -348,7 +355,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void onPause() {
 	    super.onPause();
 	    Log.i("main", "onPause() aufgerufen");
-	    //unregisterReceiver(cdr);
+	    
+	    /////////hier entweder aufruf von theservice oder shakewakeupservice
+	    
+	   // startService(new Intent(this, TheService.class));
+	      startService(new Intent(this, ShakeWakeUpService.class));
+	    
 	}
 
 	@Override
@@ -381,6 +393,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		super.onDestroy();
 		Log.i("main", "onDestroy() aufgerufen");
 		
+		stopService(new Intent(this, TheService.class));
+		stopService(new Intent(this, ShakeWakeUpService.class));
 		
 		try {
 			unregisterReceiver(cdr);

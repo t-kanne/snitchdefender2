@@ -56,6 +56,18 @@
 		    android:name="de.mosyapp.snitchdefender.DeactivateCountDownTimer" >
 		</service>
 		
+		<service 
+		    android:name="de.mosyapp.snitchdefender.TheService" >
+		</service>
+	
+		<service 
+		    android:name="de.mosyapp.snitchdefender.MyService" >
+		</service>
+	
+		<service 
+		    android:name="de.mosyapp.snitchdefender.ShakeWakeUpService" >
+		</service>
+		
 
 	</application>
 
