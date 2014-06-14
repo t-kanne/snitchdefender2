@@ -24,7 +24,10 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +37,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends ActionBarActivity implements SensorEventListener {
 	
 	// Variablen für den Benachrichtigungsservice
 	private ServiceConnection mConnection;
@@ -66,6 +69,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private float x,y,z;
 	
 	//Layout
+	private boolean menuKeyPressed = false;
 	ImageView imageLogo1, imageLine1;
 	ImageButton imageButton1;
 	TextView xValue, yValue, zValue, check1; 
@@ -438,6 +442,25 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean onKeyDown(int keycode, KeyEvent e) {
+	    ActionBar actionbar = getSupportActionBar();
+		
+	    switch(keycode) {
+	    	case KeyEvent.KEYCODE_MENU:
+	        	
+	        	if (menuKeyPressed == false) {
+		        	actionbar.hide();
+		    	    menuKeyPressed = true;    
+	        	}
+	        	else {
+	        		actionbar.show();
+	        		menuKeyPressed = false;
+	        	}
+	    }
+	    return super.onKeyDown(keycode, e);
 	}
 
 }

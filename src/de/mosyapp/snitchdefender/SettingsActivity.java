@@ -1,12 +1,16 @@
 package de.mosyapp.snitchdefender;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 @SuppressWarnings("deprecation")
 
@@ -15,6 +19,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         addPreferencesFromResource(R.xml.preferences);
         SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
         
@@ -52,4 +57,20 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	        }
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.settings_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.action_back){
+			finish();
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 }
+
