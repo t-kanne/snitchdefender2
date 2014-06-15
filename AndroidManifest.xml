@@ -59,7 +59,9 @@
         <activity
             android:name="de.mosyapp.snitchdefender.DimmActivity"
             android:label="@string/title_activity_dimm" 
-            android:showOnLockScreen="true" >
+            android:launchMode="singleTask"
+            android:showOnLockScreen="true"
+            android:theme="@android:style/Theme.Black" >
         </activity>
         <activity
             android:name="de.mosyapp.snitchdefender.MainActivity"
