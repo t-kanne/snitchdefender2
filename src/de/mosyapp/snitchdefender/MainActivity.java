@@ -22,6 +22,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -35,9 +36,11 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressLint("NewApi")
 public class MainActivity extends ActionBarActivity implements SensorEventListener {
+	private boolean doubleBackToExitPressedOnce;
 	
 	// Variablen für den Benachrichtigungsservice
 	private ServiceConnection mConnection;
@@ -383,12 +386,26 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return super.onOptionsItemSelected(item);
 	}
 
+	
 	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		
+	public void onBackPressed() {	
 		stopService(new Intent(this, ActivateCountDownTimer.class));
-		Log.i("main", "Hier muss noch ein Bestätigungsdialog kommen");
+		
+		if (doubleBackToExitPressedOnce) {
+	        super.onBackPressed();
+	        return;
+	    }
+
+	    this.doubleBackToExitPressedOnce = true;
+	    Toast.makeText(this, R.string.main_activity_close_app, Toast.LENGTH_SHORT).show();
+
+	    new Handler().postDelayed(new Runnable() {
+
+	        @Override
+	        public void run() {
+	            doubleBackToExitPressedOnce=false;                       
+	        }
+	    }, 2000);
 	}
 	
 	// Beenden der Activity sorgt für folgende Dinge
