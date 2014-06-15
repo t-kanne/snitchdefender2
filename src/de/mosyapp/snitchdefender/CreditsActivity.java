@@ -1,9 +1,6 @@
 package de.mosyapp.snitchdefender;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,10 +14,7 @@ public class CreditsActivity extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_credits);
-		
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(R.drawable.ic_action_back);
-		actionBar.setHomeButtonEnabled(true);
+	
 	}
 	
 	@Override

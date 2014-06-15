@@ -7,6 +7,8 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 @SuppressWarnings("deprecation")
 
@@ -51,6 +53,23 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	            ListPreference listPref = (ListPreference) pref;
 	            listPref.setSummary(listPref.getEntry());
 	        }
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case android.R.id.home:
+	            // app icon in action bar clicked; go home
+	            finish();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	

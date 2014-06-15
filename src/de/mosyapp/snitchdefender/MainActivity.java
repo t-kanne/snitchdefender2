@@ -86,6 +86,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(false);
+		
 		// Verbindung zum Benachrichtigungs-Service aufbauen
 		mConnection = new ServiceConnection() {	
 			@Override
