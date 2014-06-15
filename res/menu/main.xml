@@ -10,4 +10,11 @@
         android:title="@string/action_settings"
         app:showAsAction="always" />
 
+  	<item 	
+  	    android:id="@+id/action_help"
+  	    android:orderInCategory="90"
+  	    android:icon="@drawable/ic_action_help"
+  	    android:title="Help"
+  	    app:showAsAction="always" />
+  	  
 </menu>

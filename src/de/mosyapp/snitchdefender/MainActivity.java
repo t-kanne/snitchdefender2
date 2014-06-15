@@ -86,6 +86,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_main);
 		
+		// ActionBar gesondert für MainActivity ändern
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
 		
@@ -384,6 +385,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		int id = item.getItemId();
 		if (id == R.id.action_settings){
 			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+		}
+		if (id == R.id.action_help){
+			Intent intent = new Intent(this, HelpActivity.class);
 			startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
