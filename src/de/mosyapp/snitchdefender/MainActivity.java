@@ -79,11 +79,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	TextView max_view_x, max_view_y, max_view_z; 
 	TextView xArray, yArray, zArray; 
 	TextView countdown;
-
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.fragment_main);
 		
 		// ActionBar gesondert für MainActivity ändern
@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	// App Einstellungen werden laufend abgefragt
 	@Override
 	protected void onResume() {
-		super.onResume();
+		super.onResume();	
 		
 		// Einstellungen aufrufen aus SettingsActivity
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
