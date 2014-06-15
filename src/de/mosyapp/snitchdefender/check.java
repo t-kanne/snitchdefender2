@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 
-public class check extends Activity{
+public class Check extends Activity{
 
 	
 	@Override
@@ -20,13 +20,13 @@ public class check extends Activity{
 			SharedPreferences.Editor editor=settings.edit();
 			editor.putBoolean("firstRun",true);
 			editor.commit();
-			Intent firstScreen = new Intent(check.this,FirstScreenActivity.class);
+			Intent firstScreen = new Intent(Check.this,FirstScreenActivity.class);
 			startActivity(firstScreen);
 			finish();
 		}
 		else
 		{
-			Intent mainScreen = new Intent(check.this, MainActivity.class);
+			Intent mainScreen = new Intent(Check.this, MainActivity.class);
 			startActivity(mainScreen);
 			finish();
 		}

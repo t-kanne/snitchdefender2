@@ -40,5 +40,7 @@
         et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor 
         sit amet.        </string>
     <string name="title_activity_dimm">DimmActivity</string>
+    
+    <string name="firstScreenText">Hallo du Stricher, das ist der SnitchDefender</string>
 
 </resources>
