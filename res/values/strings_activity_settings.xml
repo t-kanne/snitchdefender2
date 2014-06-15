@@ -33,7 +33,10 @@
         <item>1</item>
     </string-array>
  
-
+	<string name="pref_lockscreen_mode_title">Bildschirm ausschalten verhindern</string>
+	<string name="pref_lockscreen_mode_summary">Bildschirm dimmen statt ausschalten 
+	    (Auf einigen Geräten wird der Alarm bei ausgeschaltetem Bildschirm nicht ausgelöst)</string>
+    
     <!-- settings for Notifications -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
     <string name="pref_ringtone_title">Alarmton</string>

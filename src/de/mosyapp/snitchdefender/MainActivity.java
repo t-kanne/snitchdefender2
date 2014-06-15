@@ -332,6 +332,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	        	countdown.setText("");
 	        	countDownCheck = true;
 	        	setActualSensorData();
+	        	
+	        	Intent dimmIntent = new Intent(this,DimmActivity.class);
+	        	startActivity(dimmIntent);
 	        }
 	    }
 	}

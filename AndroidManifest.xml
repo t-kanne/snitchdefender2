@@ -23,8 +23,6 @@
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme" >
 
-        <!-- android:theme="@style/Theme.AppCompat.Light" -->
-
         <activity
             android:name="de.mosyapp.snitchdefender.MainActivity"
             android:label="@string/app_name"
@@ -53,16 +51,15 @@
         </service>
         <service android:name="de.mosyapp.snitchdefender.DeactivateCountDownTimer" >
         </service>
-        <service android:name="de.mosyapp.snitchdefender.TheService" >
-        </service>
-        <service android:name="de.mosyapp.snitchdefender.MyService" >
-        </service>
-        <service android:name="de.mosyapp.snitchdefender.ShakeWakeUpService" >
-        </service>
 
         <activity
             android:name="de.mosyapp.snitchdefender.HelpActivity"
             android:label="@string/title_activity_help" >
+        </activity>
+        <activity
+            android:name="de.mosyapp.snitchdefender.DimmActivity"
+            android:label="@string/title_activity_dimm" 
+            android:showOnLockScreen="true" >
         </activity>
     </application>
 

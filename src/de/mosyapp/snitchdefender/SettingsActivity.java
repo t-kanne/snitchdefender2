@@ -47,7 +47,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
     }
 	
 	public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
-	    Log.i("infos", "onSharedPreferenceChanged aufgerufen"); 
+	    Log.i("settings", "onSharedPreferenceChanged aufgerufen"); 
 		Preference pref = findPreference(key);
 	        if (pref instanceof ListPreference) {
 	            ListPreference listPref = (ListPreference) pref;
