@@ -68,7 +68,6 @@
         </activity>
         <activity
             android:name="de.mosyapp.snitchdefender.FirstScreenActivity"
-            android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" 
             android:theme="@style/Theme.Base.AppCompat.Dialog.Light.FixedSize" >/
         </activity>
