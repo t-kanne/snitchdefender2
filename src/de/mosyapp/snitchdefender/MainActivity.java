@@ -177,7 +177,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		registerReceiver(cdr2, intentFilter2);
 		
 		Log.i("main", "onresume()");
-		//startService(new Intent(this, TheService.class));
 	}
 
 	
@@ -365,13 +364,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	@Override
 	public void onPause() {
 	    super.onPause();
-	    Log.i("main", "onPause() aufgerufen");
-	    
-	    /////////hier entweder aufruf von theservice oder shakewakeupservice
-	    
-	   // startService(new Intent(this, TheService.class));
-	      startService(new Intent(this, ShakeWakeUpService.class));
-	    
+	    Log.i("main", "onPause() aufgerufen");    
 	}
 
 	@Override
@@ -421,9 +414,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public void onDestroy() {	
 		super.onDestroy();
 		Log.i("main", "onDestroy() aufgerufen");
-		
-		stopService(new Intent(this, TheService.class));
-		stopService(new Intent(this, ShakeWakeUpService.class));
 		
 		try {
 			unregisterReceiver(cdr);
