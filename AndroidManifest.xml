@@ -61,7 +61,7 @@
             android:label="@string/title_activity_dimm" 
             android:launchMode="singleTask"
             android:showOnLockScreen="true"
-            android:theme="@android:style/Theme.Black" >
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="de.mosyapp.snitchdefender.MainActivity"
