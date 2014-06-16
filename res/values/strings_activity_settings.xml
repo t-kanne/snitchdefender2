@@ -19,7 +19,7 @@
         <item>10</item>
     </string-array>
     
-    <string name="pref_countdown_title">Aktierungsverzögerung</string>
+    <string name="pref_countdown_title">Aktivierungsverzögerung</string>
     
     <string-array name="pref_countdown_options">
         <item>5 Sekunden</item>
@@ -35,7 +35,7 @@
  
 	<string name="pref_lockscreen_mode_title">Standby verhindern</string>
 	<string name="pref_lockscreen_mode_summary">Bildschirm dimmen statt ausschalten 
-	    (Auf einigen Geräten wird der Alarm bei ausgeschaltetem Bildschirm nicht ausgelöst)</string>
+	    (Einige Geräte lösen den Alarm bei ausgeschaltetem Bildschirm nicht aus)</string>
     
     <!-- settings for Notifications -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
