@@ -41,6 +41,7 @@ import android.widget.Toast;
 @SuppressLint("NewApi")
 public class MainActivity extends ActionBarActivity implements SensorEventListener {
 	private boolean doubleBackToExitPressedOnce;
+	private boolean isLockScreenDisabled;
 	
 	// Variablen für den Benachrichtigungsservice
 	private ServiceConnection mConnection;
@@ -172,6 +173,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		// Aufrufen, ob LED in den Einstellungen aktiviert ist
 		flashlightActivated = preferences.getBoolean("notifications_flashlight_key", true);
 		Log.i("prefs", "(sp) flashlightActivated: " + flashlightActivated);
+		
+		// Aufrufen, ob Bildschirm gedimmt werden soll
+		isLockScreenDisabled = preferences.getBoolean("pref_lockscreen_mode_key", false);
+		Log.i("dimm", "lockScreenDisabled: " + isLockScreenDisabled);
 		
 		registerReceiver(cdr, intentFilter);
 		registerReceiver(cdr2, intentFilter2);
@@ -333,8 +338,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	        	countDownCheck = true;
 	        	setActualSensorData();
 	        	
-	        	Intent dimmIntent = new Intent(this,DimmActivity.class);
-	        	startActivity(dimmIntent);
+	        	if (isLockScreenDisabled) {
+		        	Intent dimmIntent = new Intent(this,DimmActivity.class);
+		        	startActivity(dimmIntent);
+	        	}
 	        }
 	    }
 	}
