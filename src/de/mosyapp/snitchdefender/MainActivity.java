@@ -44,6 +44,7 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity implements SensorEventListener {
 	private boolean doubleBackToExitPressedOnce;
 	private boolean isLockScreenDisabled;
+	private boolean didPhoneRing;
 	
 	// Variablen für den Benachrichtigungsservice
 	private ServiceConnection mConnection;
@@ -56,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private CountdownReceiver cdr2;
 	private IntentFilter intentFilter;
 	private IntentFilter intentFilter2;
-	private boolean isReceiverActive = false;
+	public boolean isReceiverActive = false;
 	
 	// Variablen für Alarmverwaltung
 	private Alarm alarm;
@@ -145,30 +146,40 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		registerReceiver(cdr2, intentFilter2);
 		
 		
+		// Telefonstatus wird überwacht. Wenn Anruf eingeht, dann Alarm deaktivieren.
+		// Wenn Anruf beendet/abgelehnt/ignoriert, dann Countdown wieder aktivieren.
 		
-		
-		
-		
-		//############################################################
 		PhoneStateListener phoneStateListener = new PhoneStateListener() {
 		    @Override
 		    public void onCallStateChanged(int state, String incomingNumber) {
 		        if (state == TelephonyManager.CALL_STATE_RINGING) {
-		            Log.i("main", "phonestatelistener ringing aufgerufen");
-		        } else if(state == TelephonyManager.CALL_STATE_IDLE) {
-		        	Log.i("main", "phonestatelistener idle aufgerufen");
-		        } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
-		        	Log.i("main", "phonestatelistener offhook aufgerufen");
-		        }
+		            Log.i("phone", "phonestatelistener ringing aufgerufen");
+		            if (buttonPressed){
+		            	stopAlarms(); 
+		            	didPhoneRing = true;
+		            }
+		        } 
+		        else if (state == TelephonyManager.CALL_STATE_IDLE) {
+		        	Log.i("phone", "phonestatelistener idle aufgerufen");
+		        	if (didPhoneRing & buttonPressed == false) {
+		        		finishActivity(1);
+
+						startCountDownTimer();
+						
+						if(buttonPressed == false){
+							buttonPressed = true;
+							alarm.startVibrationOnActivate();
+							updateNotification(true);					
+						}
+		        	}
+		        } 
 		        super.onCallStateChanged(state, incomingNumber);
 		    }
 		};    
-
-		TelephonyManager mgr = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
-			
-			if(mgr != null) {
-			    mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-			}
+		TelephonyManager mgr = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);	
+		if(mgr != null) {
+			mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+		}
 	}
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
@@ -279,16 +290,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		activateAlarms();	
 	}
 	
-	//Überprüfung: wurde der Aktivierbutton gedrückt UND ein Sensor Grenzwert überschritten?
-	// -> Sound auslösen
-	public void activateAlarms(){
-		if(buttonPressed && sensor_Check && countDownCheck && closeThisApp == false){
-			alarm.startSound();
-			alarm.startVibration(vibrationActivated);
-			alarm.startFlashLight(flashlightActivated);
-		}
-	}
-	
 	public void addButtonListener() { 
 		imageButton1 = (ImageButton) findViewById(R.id.imageButton1);
 		imageButton1.setOnClickListener(new OnClickListener() {
@@ -306,19 +307,32 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				}
 				else if(buttonPressed == true){
 					Log.i("infos", "Gleich wird gestoppt");
-					alarm.stopSound();
-					alarm.stopVibration(vibrationActivated);
-					alarm.stopFlashLight();
-					
-					buttonPressed = false;
+					stopAlarms();
 					alarm.startVibrationOnActivate();
-					updateNotification(false);
-					countDownCheck = false;
 				}
 			}
 		});
 	}
 
+	//Überprüfung: wurde der Aktivierbutton gedrückt UND ein Sensor Grenzwert überschritten?
+	// -> Sound auslösen
+	public void activateAlarms(){
+		if(buttonPressed && sensor_Check && countDownCheck && closeThisApp == false){
+			alarm.startSound();
+			alarm.startVibration(vibrationActivated);
+			alarm.startFlashLight(flashlightActivated);
+		}
+	}
+	
+	public void stopAlarms(){
+		alarm.stopSound();
+		alarm.stopVibration(vibrationActivated);
+		alarm.stopFlashLight();
+		updateNotification(false);
+		countDownCheck = false;
+		buttonPressed = false;
+	}
+	
 	public void startCountDownTimer(){
 	
 		if(hasStarted == false){
@@ -366,7 +380,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	        	
 	        	if (isLockScreenDisabled) {
 		        	Intent dimmIntent = new Intent(this,DimmActivity.class);
-		        	startActivity(dimmIntent);
+		        	startActivityForResult(dimmIntent, 1);
 	        	}
 	        }
 	    }
