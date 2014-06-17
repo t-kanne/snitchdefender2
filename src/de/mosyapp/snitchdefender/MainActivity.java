@@ -37,6 +37,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -81,6 +82,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private boolean menuKeyPressed = false;
 	ImageView imageLogo1, imageLine1;
 	ImageButton imageButton1;
+	
 	TextView xValue, yValue, zValue, check1; 
 	TextView max_view_x, max_view_y, max_view_z; 
 	TextView xArray, yArray, zArray; 
@@ -259,6 +261,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		activateAlarms();	
 	}
 	
+
 	public void addButtonListener() { 
 		imageButton1 = (ImageButton) findViewById(R.id.imageButton1);
 		imageButton1.setOnClickListener(new OnClickListener() {
@@ -267,7 +270,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				
 				// Nach dem Countdown-Timer werden aktuelle Positionsdaten gespeichert.
 				// --> ausgelagert in setActualSensorData ()
-				startCountDownTimer();
+				
 				
 				if(buttonPressed == false){
 					buttonPressed = true;
@@ -279,6 +282,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 					stopAlarms();
 					alarm.startVibrationOnActivate();
 				}
+				startCountDownTimer();
 			}
 		});
 	}
@@ -305,6 +309,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public void startCountDownTimer(){
 	
 		if(hasStarted == false){
+			buttonPressed = true;
 			stopService(new Intent(this, DeactivateCountDownTimer.class));
 			startService(new Intent(this, ActivateCountDownTimer.class));
 			hasStarted = true;
@@ -521,10 +526,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		        
 		        case TelephonyManager.CALL_STATE_IDLE:
 		        	Log.i("phone", "phonestatelistener idle aufgerufen");
-		        	if (hasStarted == false && didPhoneRing && buttonPressed == false) {
-						startCountDownTimer();
-						Log.i("phone", "Countdown hätte jetzt laufen sollen");
-		        	}
+		            	if (hasStarted == true && didPhoneRing && buttonPressed == false) {
+		            		hasStarted = false;
+		            		stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
+							startCountDownTimer();
+							Log.i("phone", "Countdown hätte jetzt laufen sollen");
+			        	}
+
 		        }
 		        super.onCallStateChanged(state, incomingNumber);
 		    }
@@ -535,6 +543,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 	    	    
 	}
+	
 	
 	
 }
