@@ -15,17 +15,24 @@ public class DimmActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 					
-		Window win = getWindow();
-		WindowManager.LayoutParams winParams = win.getAttributes();
+		//Window win = getWindow();
+		//WindowManager.LayoutParams winParams = win.getAttributes();
 			
-		winParams.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
-		win.setAttributes(winParams);
+		//winParams.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
+		//win.setAttributes(winParams);
+		
+		
+		WindowManager.LayoutParams layout = getWindow().getAttributes();
+		layout.screenBrightness = 1F;
+		getWindow().setAttributes(layout);
+		
 			
 	    //   requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    //   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 	    //		   WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	        
 	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+	    //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_dimm);
 	}
 	
