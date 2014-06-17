@@ -27,6 +27,8 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -142,7 +144,31 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		intentFilter2 = new IntentFilter(DeactivateCountDownTimer.COUNTDOWN_BR);
 		registerReceiver(cdr2, intentFilter2);
 		
-	
+		
+		
+		
+		
+		
+		//############################################################
+		PhoneStateListener phoneStateListener = new PhoneStateListener() {
+		    @Override
+		    public void onCallStateChanged(int state, String incomingNumber) {
+		        if (state == TelephonyManager.CALL_STATE_RINGING) {
+		            Log.i("main", "phonestatelistener ringing aufgerufen");
+		        } else if(state == TelephonyManager.CALL_STATE_IDLE) {
+		        	Log.i("main", "phonestatelistener idle aufgerufen");
+		        } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
+		        	Log.i("main", "phonestatelistener offhook aufgerufen");
+		        }
+		        super.onCallStateChanged(state, incomingNumber);
+		    }
+		};    
+
+		TelephonyManager mgr = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
+			
+			if(mgr != null) {
+			    mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+			}
 	}
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
@@ -487,5 +513,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	    }
 	    return super.onKeyDown(keycode, e);
 	}
-
+	
+	
 }

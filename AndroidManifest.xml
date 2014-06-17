@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -74,6 +75,14 @@
             android:screenOrientation="portrait" 
             android:theme="@style/Theme.Base.AppCompat.Dialog.Light.FixedSize" >/
         </activity>
+        
+        <receiver android:name="CallReceiver" >
+	        <intent-filter>
+	            <action android:name="android.intent.action.PHONE_STATE" >
+	            </action>
+	        </intent-filter>
+    	</receiver>
+        
     </application>
 
 </manifest>
