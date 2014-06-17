@@ -49,11 +49,13 @@
 	
 	<PreferenceCategory
 	    android:title="@string/pref_header_informations" >
-		<Preference android:title="@string/about_us_title" >
-		    <intent android:action="android.intent.action.VIEW"
+	    <Preference android:title="@string/help_title" >
+	       	<intent android:action="android.intent.action.VIEW"
 		        	android:targetPackage="de.mosyapp.snitchdefender"
-		        	android:targetClass="de.mosyapp.snitchdefender.HelpActivity" /> 
-		        	
+		        	android:targetClass="de.mosyapp.snitchdefender.HelpActivity" />       
+	    </Preference>
+	    
+		<Preference android:title="@string/about_us_title" > 	
 	        <intent android:action="android.intent.action.VIEW"
 	            	android:targetPackage="de.mosyapp.snitchdefender"
 	            	android:targetClass="de.mosyapp.snitchdefender.CreditsActivity" />

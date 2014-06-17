@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -15,24 +16,11 @@ public class DimmActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 					
-		//Window win = getWindow();
-		//WindowManager.LayoutParams winParams = win.getAttributes();
-			
-		//winParams.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
-		//win.setAttributes(winParams);
-		
-		
 		WindowManager.LayoutParams layout = getWindow().getAttributes();
 		layout.screenBrightness = 1F;
 		getWindow().setAttributes(layout);
-		
-			
-	    //   requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    //   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-	    //		   WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	        
-	    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-	    //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
 		setContentView(R.layout.activity_dimm);
 	}
 	
@@ -46,7 +34,7 @@ public class DimmActivity extends Activity {
 	    }
 
 	    this.doubleBackToExitPressedOnce = true;
-	    Toast.makeText(this, "Nochmal drücken, um zurück zur App zu gelangen", Toast.LENGTH_SHORT).show();
+	    Toast.makeText(this, "Zweimal schnell drücken, um zurück zur App zu gelangen", Toast.LENGTH_SHORT).show();
 
 	    new Handler().postDelayed(new Runnable() {
 
@@ -56,5 +44,6 @@ public class DimmActivity extends Activity {
 	        }
 	    }, 2000);
 	}
+	
 	
 }

@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,6 +26,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.provider.CallLog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.PhoneStateListener;
@@ -146,40 +148,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		registerReceiver(cdr2, intentFilter2);
 		
 		
-		// Telefonstatus wird überwacht. Wenn Anruf eingeht, dann Alarm deaktivieren.
-		// Wenn Anruf beendet/abgelehnt/ignoriert, dann Countdown wieder aktivieren.
-		
-		PhoneStateListener phoneStateListener = new PhoneStateListener() {
-		    @Override
-		    public void onCallStateChanged(int state, String incomingNumber) {
-		        if (state == TelephonyManager.CALL_STATE_RINGING) {
-		            Log.i("phone", "phonestatelistener ringing aufgerufen");
-		            if (buttonPressed){
-		            	stopAlarms(); 
-		            	didPhoneRing = true;
-		            }
-		        } 
-		        else if (state == TelephonyManager.CALL_STATE_IDLE) {
-		        	Log.i("phone", "phonestatelistener idle aufgerufen");
-		        	if (didPhoneRing & buttonPressed == false) {
-		        		finishActivity(1);
 
-						startCountDownTimer();
-						
-						if(buttonPressed == false){
-							buttonPressed = true;
-							alarm.startVibrationOnActivate();
-							updateNotification(true);					
-						}
-		        	}
-		        } 
-		        super.onCallStateChanged(state, incomingNumber);
-		    }
-		};    
-		TelephonyManager mgr = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);	
-		if(mgr != null) {
-			mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-		}
 	}
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
@@ -339,12 +308,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			stopService(new Intent(this, DeactivateCountDownTimer.class));
 			startService(new Intent(this, ActivateCountDownTimer.class));
 			hasStarted = true;
+			Log.i("main", "startCountDownTimer() if hasStarted == false");
 		}
 		else if(hasStarted == true){
 			stopService(new Intent(this, ActivateCountDownTimer.class));
 			countdown.setText("deaktiviert!");
 			startService(new Intent(this, DeactivateCountDownTimer.class));
 			hasStarted = false;
+			Log.i("main", "startCountDownTimer() if hasStarted == true");
 		}
 	}
 	
@@ -411,11 +382,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			Log.i("infos", "sensorwerte ins array geladen");
 	}
 	
-	@Override
-	public void onPause() {
-	    super.onPause();
-	    Log.i("main", "onPause() aufgerufen");    
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -526,6 +492,48 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	        	}
 	    }
 	    return super.onKeyDown(keycode, e);
+	}
+	
+	
+	@Override
+	public void onPause() {
+	    super.onPause();
+	    Log.i("main", "onPause() aufgerufen");  
+	    
+		// Telefonstatus wird überwacht. Wenn Anruf eingeht, dann Alarm deaktivieren.
+		// Wenn Anruf beendet/abgelehnt/ignoriert, dann Countdown wieder aktivieren.
+		
+		PhoneStateListener phoneStateListener = new PhoneStateListener() {
+		    @Override
+		    public void onCallStateChanged(int state, String incomingNumber) {
+		        switch (state) {
+		        
+		        case TelephonyManager.CALL_STATE_RINGING: 
+		            Log.i("phone", "phonestatelistener ringing aufgerufen");
+		            if (buttonPressed){
+		            	stopAlarms(); 
+		            	didPhoneRing = true;
+		            }
+		        
+		        case TelephonyManager.CALL_STATE_OFFHOOK:
+		        	Log.i("phone", "phonestatelistener offhook aufgerufen");
+		        	
+		        
+		        case TelephonyManager.CALL_STATE_IDLE:
+		        	Log.i("phone", "phonestatelistener idle aufgerufen");
+		        	if (hasStarted == false && didPhoneRing && buttonPressed == false) {
+						startCountDownTimer();
+						Log.i("phone", "Countdown hätte jetzt laufen sollen");
+		        	}
+		        }
+		        super.onCallStateChanged(state, incomingNumber);
+		    }
+		};    
+		TelephonyManager mgr = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);	
+		if(mgr != null) {
+			mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+		}
+	    	    
 	}
 	
 	
