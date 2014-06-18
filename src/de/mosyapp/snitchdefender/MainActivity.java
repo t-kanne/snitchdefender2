@@ -225,13 +225,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 						check1.setText("check: " + buttonPressed);
 						
 					}
-
+            		compareSensorData();
 	}
 	
 	
 	//Verarbeiten der im Array gespeicherten X,Y Werte
 	public void compareSensorData(){
-	
+
 		float x_array = sensorWerte[0];
 		float x_array2 = Math.abs(x_array);
 		float x_array_compare = x_array2 + limitValue;
@@ -252,6 +252,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		else if(xmax < x_array_compare || ymax < y_array_compare){
 			sensor_Check = false;
 		}
+	
 		activateAlarms();	
 	}
 	
