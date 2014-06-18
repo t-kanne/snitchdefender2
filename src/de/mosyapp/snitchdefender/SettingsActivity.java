@@ -1,11 +1,18 @@
 package de.mosyapp.snitchdefender;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +39,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
         listPrefSelected = sp.getString("countdown_key", null);
         listPrefEntry = (String) listPref.getEntry();
         listPref.setSummary(listPrefEntry);
+       
     }
 	
 	protected void onResume() {
@@ -53,8 +61,32 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	            ListPreference listPref = (ListPreference) pref;
 	            listPref.setSummary(listPref.getEntry());
 	        }
+	        if (pref instanceof CheckBoxPreference) {
+	        	Log.i("settings", "lockscreen mode geändert");
+	        	CheckBoxPreference lockPref = (CheckBoxPreference) findPreference("pref_lockscreen_mode_key");
+	        	boolean lockPrefValue = lockPref.isChecked();
+	        	Log.i("settings", "lockscreenOn: " + lockPrefValue);
+	        	if (lockPrefValue == true) {
+
+	                AlertDialog.Builder builder = 
+	                   new AlertDialog.Builder(this);
+
+	                builder.setTitle(R.string.notification);
+	                builder.setPositiveButton(R.string.okay, null); 
+	                builder.setMessage(R.string.pref_lockscreen_mode_information);
+	                AlertDialog errorDialog = builder.create();
+	                errorDialog.show();
+	        	}
+	        }
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return true;
@@ -71,7 +103,6 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	
 	
 }
 

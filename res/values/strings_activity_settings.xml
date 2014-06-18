@@ -36,6 +36,9 @@
 	<string name="pref_lockscreen_mode_title">Standby verhindern</string>
 	<string name="pref_lockscreen_mode_summary">Bildschirm dimmen statt ausschalten 
 	    (Einige Geräte lösen den Alarm bei ausgeschaltetem Bildschirm nicht aus)</string>
+	<string name="pref_lockscreen_mode_information">Auf einigen Geräten kann der Bewegungssensor nicht gelesen werden,
+	    wenn der Bildschirm gesperrt ist. Dieser Modus verhindert das Sperren und verbraucht mehr Akkukapazitäten, weil das Display dabei
+	    aktiv bleibt. Es empfiehlt sich, diesen Modus nur zu verwenden, wenn der Alarm bei gesperrtem Bildschirm nicht auslöst.</string>
     
     <!-- settings for Notifications -->
     <string name="pref_header_notifications">Benachrichtigungen</string>
