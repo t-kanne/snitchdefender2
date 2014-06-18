@@ -9,7 +9,6 @@ package de.mosyapp.snitchdefender;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,7 +16,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -26,18 +24,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.provider.CallLog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,6 +42,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private boolean doubleBackToExitPressedOnce;
 	private boolean isLockScreenDisabled;
 	private boolean didPhoneRing;
+	private boolean hasHookedOff = false;
+	private String callState;
 	
 	// Variablen für den Benachrichtigungsservice
 	private ServiceConnection mConnection;
@@ -148,8 +144,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		cdr2 = new CountdownReceiver();
 		intentFilter2 = new IntentFilter(DeactivateCountDownTimer.COUNTDOWN_BR);
 		registerReceiver(cdr2, intentFilter2);
-		
-		
 
 	}
 	
@@ -499,51 +493,47 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	    return super.onKeyDown(keycode, e);
 	}
 	
-	
 	@Override
 	public void onPause() {
 	    super.onPause();
 	    Log.i("main", "onPause() aufgerufen");  
 	    
-		// Telefonstatus wird überwacht. Wenn Anruf eingeht, dann Alarm deaktivieren.
-		// Wenn Anruf beendet/abgelehnt/ignoriert, dann Countdown wieder aktivieren.
-		
-		PhoneStateListener phoneStateListener = new PhoneStateListener() {
-		    @Override
-		    public void onCallStateChanged(int state, String incomingNumber) {
-		        switch (state) {
-		        
-		        case TelephonyManager.CALL_STATE_RINGING: 
-		            Log.i("phone", "phonestatelistener ringing aufgerufen");
-		            if (buttonPressed){
-		            	stopAlarms(); 
-		            	didPhoneRing = true;
-		            }
-		        
-		        case TelephonyManager.CALL_STATE_OFFHOOK:
-		        	Log.i("phone", "phonestatelistener offhook aufgerufen");
-		        	
-		        
-		        case TelephonyManager.CALL_STATE_IDLE:
-		        	Log.i("phone", "phonestatelistener idle aufgerufen");
-		            	if (hasStarted == true && didPhoneRing && buttonPressed == false) {
-		            		hasStarted = false;
-		            		stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
-							startCountDownTimer();
-							Log.i("phone", "Countdown hätte jetzt laufen sollen");
-			        	}
-
-		        }
-		        super.onCallStateChanged(state, incomingNumber);
-		    }
-		};    
-		TelephonyManager mgr = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);	
-		if(mgr != null) {
-			mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-		}
-	    	    
 	}
+
+	// Telefonstatus wird überwacht. Wenn Anruf eingeht, dann Alarm deaktivieren.
+	// Wenn Anruf beendet/abgelehnt/ignoriert, dann Countdown wieder aktivieren.
+	// Daten kommen per Intent aus IncomingCallTracker (BroadcastReceiver)
 	
-	
-	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		callState = intent.getStringExtra("state");
+		 
+		if (callState.equalsIgnoreCase("RINGING")) {
+			Log.i("phone", "phonestatelistener ringing aufgerufen");
+	        if (buttonPressed){
+	        	stopAlarms(); 
+	         	didPhoneRing = true;
+	        }
+		}
+		if (callState.equalsIgnoreCase("IDLE")) {
+			Log.i("phone", "phonestatelistener idle aufgerufen");
+	        if (hasStarted == true && didPhoneRing && buttonPressed == false && hasHookedOff == false) {
+	        	hasStarted = false;
+	        	finishActivity(1);
+	        	stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
+	        	startCountDownTimer();
+	        }
+	        if (hasStarted == true && didPhoneRing && buttonPressed == false && hasHookedOff == true) {
+	        	hasStarted = false;
+	        	stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
+	        }
+		}
+		 
+	    if (callState.equalsIgnoreCase("OFFHOOK")) {
+	    	Log.i("phone", "phonestatelistener offhook aufgerufen");
+			hasHookedOff = true;
+		} 
+	    super.onNewIntent(intent);
+	}
+	 	
 }

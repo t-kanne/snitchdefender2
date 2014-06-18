@@ -61,6 +61,7 @@
             android:name="de.mosyapp.snitchdefender.DimmActivity"
             android:label="@string/title_activity_dimm"
             android:showOnLockScreen="true"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
         <activity
@@ -76,6 +77,13 @@
             android:theme="@style/Theme.Base.AppCompat.Dialog.Light.FixedSize" >/
         </activity>
         
+         
+        <receiver android:name=".IncomingCallTracker">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+       
     </application>
 
 </manifest>
