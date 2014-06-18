@@ -10,7 +10,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 public class DimmActivity extends Activity {
-	private boolean doubleBackToExitPressedOnce;
+	private int pushToExit = 0;
+	private int pusherLeft;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,21 +29,32 @@ public class DimmActivity extends Activity {
 	public void onBackPressed() {	
 		stopService(new Intent(this, ActivateCountDownTimer.class));
 		
-		if (doubleBackToExitPressedOnce) {
+		if (pushToExit == 3) {
 	        super.onBackPressed();
+	        finish();
 	        return;
 	    }
 
-	    this.doubleBackToExitPressedOnce = true;
-	    Toast.makeText(this, "Zweimal schnell drücken, um zurück zur App zu gelangen", Toast.LENGTH_SHORT).show();
+	    this.pushToExit++;
+	    
+	    final Toast toast = Toast.makeText(this, "Weiter drücken", Toast.LENGTH_LONG);
+	    toast.show();
 
 	    new Handler().postDelayed(new Runnable() {
 
 	        @Override
 	        public void run() {
-	            doubleBackToExitPressedOnce=false;                       
+	        	toast.cancel();
 	        }
-	    }, 2000);
+	    }, 500);
+	    
+	    new Handler().postDelayed(new Runnable() {
+
+	        @Override
+	        public void run() {
+	        	pushToExit = 0;
+	        }
+	    }, 8000); 
 	}
 	
 	
