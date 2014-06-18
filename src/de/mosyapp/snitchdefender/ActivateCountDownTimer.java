@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 
 public class ActivateCountDownTimer extends Service {
 
@@ -20,6 +21,7 @@ public class ActivateCountDownTimer extends Service {
     @Override
         public void onCreate() {       
             super.onCreate();
+       
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
     		long countdownDuration = Long.parseLong(preferences.getString("countdown_key", "5"));
     		Log.i("prefs", "(sp) countdownDuration: " + countdownDuration);

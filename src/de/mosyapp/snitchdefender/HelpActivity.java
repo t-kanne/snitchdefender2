@@ -26,7 +26,7 @@ public class HelpActivity extends ActionBarActivity {
 		}
 		
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(R.drawable.logo3);
+		actionBar.setIcon(R.drawable.sd_icon);
 		
 	}
 

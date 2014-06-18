@@ -8,6 +8,10 @@ produced by appBert & programmierKanne
 package de.mosyapp.snitchdefender;
 
 
+
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -32,13 +36,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
-public class MainActivity extends ActionBarActivity implements SensorEventListener {
+public class MainActivity extends ActionBarActivity implements SensorEventListener, AnimationListener {
 	private boolean doubleBackToExitPressedOnce;
 	private boolean isLockScreenDisabled;
 	private boolean didPhoneRing;
@@ -68,21 +74,18 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	// Sensorberechnungen
 	private SensorManager sensorManager;
 	private float sensorWerte[] = new float[3];
-	private float x_compare, y_compare, z_compare;
 	private boolean sensor_Check = false;   		//Check Variable sobald X-Wert den Grenzwert überschreitet
 	private float limitValue;
 	private float xmax, ymax, zmax; 				// Sensor Grenzwert
 	private float x,y,z;
-	
+	private float x_compare, y_compare, z_compare;
+
 	//Layout
 	private boolean menuKeyPressed = false;
-	ImageView imageLogo1, imageLine1;
-	ImageButton imageButton1;
-	
-	TextView xValue, yValue, zValue, check1; 
-	TextView max_view_x, max_view_y, max_view_z; 
-	TextView xArray, yArray, zArray; 
+	ImageView header1, pushtoactivate;
+	ImageButton activateButton;
 	TextView countdown;
+	Animation pushtoactivatefade;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -109,23 +112,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		};
 		
 		// Layout einrichten
-		imageLine1 = (ImageView) findViewById(R.id.imageLine1);
-		imageLogo1 = (ImageView) findViewById(R.id.imageLogo1);
-
-		xValue=(TextView)findViewById(R.id.xcoor);
-		yValue=(TextView)findViewById(R.id.ycoor); 
-		zValue=(TextView)findViewById(R.id.zcoor); 
-		
-		max_view_x = (TextView)findViewById(R.id.max_x_text);
-		max_view_y = (TextView)findViewById(R.id.max_y_text);
-		max_view_z = (TextView)findViewById(R.id.max_z_text);
-		
-		check1 = (TextView)findViewById(R.id.check1);
 		countdown = (TextView)findViewById(R.id.countdown);
-		
-		xArray = (TextView)findViewById(R.id.xArray);
-		yArray = (TextView)findViewById(R.id.yArray);
-		zArray = (TextView)findViewById(R.id.zArray);
+		activateButton = (ImageButton) findViewById(R.id.activateButton);
+		pushtoactivate = (ImageView) findViewById(R.id.pushtoactivate);
 		
 		// Sensor initialisieren
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
@@ -143,7 +132,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		intentFilter2 = new IntentFilter(DeactivateCountDownTimer.COUNTDOWN_BR);
 		registerReceiver(cdr2, intentFilter2);
 	
+		pushtoactivatefade = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.pushtoactivatefade);
+		pushtoactivatefade.setAnimationListener(this);
+		pushtoactivate.startAnimation(pushtoactivatefade);	
+		pushtoactivate.setVisibility(View.VISIBLE);
+		
 	}
+	
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
 	@Override
@@ -184,49 +179,21 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		Log.i("main", "onresume()");
 	}
 
-	
 	public void onSensorChanged(SensorEvent event){
 		
-            		if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
-		    			
-					Log.i("main","onSensorChanged()");
-					
-					x = event.values[0];
-					y = event.values[1];
-					z = event.values[2];
-					
-					// folgende Werte bzw. TextViews sind eigentlich nur zur Anzeige gedacht
-					// sollen dann natürlich weg
-					xValue.setText("X: "+ x);
-					yValue.setText("Y: "+ y);
-					zValue.setText("Z: "+ z);
-					
-					//Betrag ermitteln
-					xmax = Math.abs(x);
-					ymax = Math.abs(y);
-					zmax = Math.abs(z);
-
-					// Anzeige der Maximalwerte
-						if(xmax > x_compare){
-							max_view_x.setText("max-x: " + xmax);
-							x_compare = xmax;
-						}
-						
-						if(ymax > y_compare){
-							max_view_y.setText("max-y: " + ymax);
-							y_compare = ymax;
-						}
-						
-						if(zmax > z_compare){
-							max_view_z.setText("max-z: " + zmax);
-							z_compare = zmax;
-						}
-						
-						check1.setText("check: " + buttonPressed);
-						
-					}
-            		compareSensorData();
-	}
+		if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+		
+		x = event.values[0];
+		y = event.values[1];
+		z = event.values[2];
+		
+		//Betrag ermitteln
+		xmax = Math.abs(x);
+		ymax = Math.abs(y);
+		zmax = Math.abs(z);		
+		}
+	compareSensorData();
+}
 	
 	
 	//Verarbeiten der im Array gespeicherten X,Y Werte
@@ -256,32 +223,34 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		activateAlarms();	
 	}
 	
-
+	
 	public void addButtonListener() { 
-		imageButton1 = (ImageButton) findViewById(R.id.imageButton1);
-		imageButton1.setOnClickListener(new OnClickListener() {
+		activateButton = (ImageButton) findViewById(R.id.activateButton);
+		activateButton.setOnClickListener(new OnClickListener() {
  
 			public void onClick(View v) {					
 				
 				// Nach dem Countdown-Timer werden aktuelle Positionsdaten gespeichert.
-				// --> ausgelagert in setActualSensorData ()
-				
-				
+				// --> ausgelagert in setActualSensorData ()		
+					
 				if(buttonPressed == false){
 					buttonPressed = true;
 					alarm.startVibrationOnActivate();
-					updateNotification(true);					
+					updateNotification(true);	
+					pushtoactivate.clearAnimation();
+				    pushtoactivate.setVisibility(View.INVISIBLE);			  
 				}
 				else if(buttonPressed == true){
 					Log.i("infos", "Gleich wird gestoppt");
 					stopAlarms();
 					alarm.startVibrationOnActivate();
+					activateButton.setImageResource(R.drawable.buttonred);
 				}
 				startCountDownTimer();
 			}
 		});
 	}
-
+	
 	//Überprüfung: wurde der Aktivierbutton gedrückt UND ein Sensor Grenzwert überschritten?
 	// -> Sound auslösen
 	public void activateAlarms(){
@@ -337,6 +306,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	        countdown.setText("Aktivierung in " + millisUntilFinished + " Sekunden!");      
 	        if(countDownFinal == 12){    
 	        	 countdown.setText("aktiviert!");
+	        	 activateButton.setImageResource(R.drawable.buttongreen);
 	        }
 	    }
 	}
@@ -348,7 +318,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	        	countdown.setText("");
 	        	countDownCheck = true;
 	        	setActualSensorData();
-	        	
 	        	if (isLockScreenDisabled) {
 		        	Intent dimmIntent = new Intent(this,DimmActivity.class);
 		        	startActivityForResult(dimmIntent, 1);
@@ -357,18 +326,17 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	    }
 	}
 	
-	
 	private void setDeactivationCountDown3(Intent intent) {
 		if (intent.getExtras() != null) {
 	        long deactivationCountDown = intent.getLongExtra("countDownOnFinish", 0); 
 	        if(deactivationCountDown == 33){  
 	        	countdown.setText("");
 	        	stopService(new Intent(this, DeactivateCountDownTimer.class));
+	            pushtoactivate.setVisibility(View.VISIBLE);	
+	        	pushtoactivate.startAnimation(pushtoactivatefade);	
 	        }
 	    }
 	}
-	
-	
 	
 	public void setActualSensorData () {
 		 //Speichern der aktuell gemessen Sensorwerte in ein Array
@@ -376,9 +344,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			sensorWerte[1] = y;
 			sensorWerte[2] = z;
 		
-			xArray.setText("xA: "+ sensorWerte[0]);
-			yArray.setText("yA: "+ sensorWerte[1]);
-			zArray.setText("zA: "+ sensorWerte[2]);
 			Log.i("infos", "sensorwerte ins array geladen");
 	}
 	
@@ -471,8 +436,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -535,6 +498,18 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			hasHookedOff = true;
 		} 
 	    super.onNewIntent(intent);
+	}
+
+	@Override
+	public void onAnimationEnd(Animation arg0) {
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation arg0) {
+	}
+
+	@Override
+	public void onAnimationStart(Animation arg0) {
 	}
 	 	
 }
