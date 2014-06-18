@@ -129,10 +129,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		
 		// Sensor initialisieren
 		sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
-		sensorManager.registerListener(this, 
-				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-				SensorManager.SENSOR_DELAY_NORMAL);
-
+		sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 500000); //Wert in Mikrosekunden
+		
 		addButtonListener();
 		
 		alarm = new Alarm(this);
@@ -144,7 +142,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		cdr2 = new CountdownReceiver();
 		intentFilter2 = new IntentFilter(DeactivateCountDownTimer.COUNTDOWN_BR);
 		registerReceiver(cdr2, intentFilter2);
-
+	
 	}
 	
 	// Beim Starten wird Benachrichtigung an diese Activity gebunden.
@@ -189,45 +187,47 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	public void onSensorChanged(SensorEvent event){
 		
-		if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
-			
-			x = event.values[0];
-			y = event.values[1];
-			z = event.values[2];
-			
-			// folgende Werte bzw. TextViews sind eigentlich nur zur Anzeige gedacht
-			// sollen dann natürlich weg
-			xValue.setText("X: "+ x);
-			yValue.setText("Y: "+ y);
-			zValue.setText("Z: "+ z);
-			
-			//Betrag ermitteln
-			xmax = Math.abs(x);
-			ymax = Math.abs(y);
-			zmax = Math.abs(z);
+            		if(event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+		    			
+					Log.i("main","onSensorChanged()");
+					
+					x = event.values[0];
+					y = event.values[1];
+					z = event.values[2];
+					
+					// folgende Werte bzw. TextViews sind eigentlich nur zur Anzeige gedacht
+					// sollen dann natürlich weg
+					xValue.setText("X: "+ x);
+					yValue.setText("Y: "+ y);
+					zValue.setText("Z: "+ z);
+					
+					//Betrag ermitteln
+					xmax = Math.abs(x);
+					ymax = Math.abs(y);
+					zmax = Math.abs(z);
 
-			// Anzeige der Maximalwerte
-				if(xmax > x_compare){
-					max_view_x.setText("max-x: " + xmax);
-					x_compare = xmax;
-				}
-				
-				if(ymax > y_compare){
-					max_view_y.setText("max-y: " + ymax);
-					y_compare = ymax;
-				}
-				
-				if(zmax > z_compare){
-					max_view_z.setText("max-z: " + zmax);
-					z_compare = zmax;
-				}
-				
-				check1.setText("check: " + buttonPressed);
-				
-			}
-		
-		compareSensorData();	
+					// Anzeige der Maximalwerte
+						if(xmax > x_compare){
+							max_view_x.setText("max-x: " + xmax);
+							x_compare = xmax;
+						}
+						
+						if(ymax > y_compare){
+							max_view_y.setText("max-y: " + ymax);
+							y_compare = ymax;
+						}
+						
+						if(zmax > z_compare){
+							max_view_z.setText("max-z: " + zmax);
+							z_compare = zmax;
+						}
+						
+						check1.setText("check: " + buttonPressed);
+						
+					}
+
 	}
+	
 	
 	//Verarbeiten der im Array gespeicherten X,Y Werte
 	public void compareSensorData(){
