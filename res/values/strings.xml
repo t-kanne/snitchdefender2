@@ -7,6 +7,8 @@
     <string name="title_activity_credits">Credits</string>
     <string name="credits_text">SnitchDefender. ©2014</string>
     <string name="title_service_create_notification">CreateNotificationActivity</string>
+    <string name="notification_defender_active">Diebstahlschutz ist aktiv</string>
+    <string name="notification_defender_inactive">Diebstahlschutz ist nicht aktiv</string>
     <string name="main_activity_close_app">Nochmaliges Drücken beendet die App</string>
     <string name="okay">OK</string>
     <string name="cancel">Abbrechen</string>
@@ -43,6 +45,7 @@
         et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor 
         sit amet.        </string>
     <string name="title_activity_dimm">DimmActivity</string>
+    <string name="dimm_activity_close">Nochmal drücken</string>
     
     <string name="firstScreenText">Vielen Dank für´s Herunterladen des SnitchDefender!
         Bevor es losgeht: Diese App verwendet den Bewegungssensor des Geräts. Auf vielen Geräten kann dieser allerdings

@@ -14,7 +14,6 @@ import android.util.Log;
 public class CreateNotificationService extends Service {
 	private NotificationManager nm;
 	private int notifId = 1;
-	
 
 	public class LocalBinder extends Binder {
 		CreateNotificationService getService() {
@@ -69,9 +68,9 @@ public class CreateNotificationService extends Service {
 			.setContentIntent(pIntent);
 		
 		if (isDefendActive) {
-			builder.setContentText("Diebstahlschutz ist aktiv");
+			builder.setContentText(this.getString(R.string.notification_defender_active));
 		} else {
-			builder.setContentText("Diebstahlschutz ist nicht aktiv");
+			builder.setContentText(this.getString(R.string.notification_defender_inactive));
 		}
 		
 		n = builder.build();

@@ -473,32 +473,37 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	@Override
 	protected void onNewIntent(Intent intent) {
 		callState = intent.getStringExtra("state");
-		 
-		if (callState.equalsIgnoreCase("RINGING")) {
-			Log.i("phone", "phonestatelistener ringing aufgerufen");
-	        if (buttonPressed){
-	        	stopAlarms(); 
-	         	didPhoneRing = true;
-	        }
+		
+		try {
+			if (callState.equalsIgnoreCase("RINGING")) {
+				Log.i("phone", "phonestatelistener ringing aufgerufen");
+		        if (buttonPressed){
+		        	stopAlarms(); 
+		         	didPhoneRing = true;
+		        }
+			}
+			if (callState.equalsIgnoreCase("IDLE")) {
+				Log.i("phone", "phonestatelistener idle aufgerufen");
+		        if (hasStarted == true && didPhoneRing && buttonPressed == false && hasHookedOff == false) {
+		        	hasStarted = false;
+		        	finishActivity(1);
+		        	stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
+		        	startCountDownTimer();
+		        }
+		        if (hasStarted == true && didPhoneRing && buttonPressed == false && hasHookedOff == true) {
+		        	hasStarted = false;
+		        	stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
+		        }
+			}
+			 
+		    if (callState.equalsIgnoreCase("OFFHOOK")) {
+		    	Log.i("phone", "phonestatelistener offhook aufgerufen");
+				hasHookedOff = true;
+			}
 		}
-		if (callState.equalsIgnoreCase("IDLE")) {
-			Log.i("phone", "phonestatelistener idle aufgerufen");
-	        if (hasStarted == true && didPhoneRing && buttonPressed == false && hasHookedOff == false) {
-	        	hasStarted = false;
-	        	finishActivity(1);
-	        	stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
-	        	startCountDownTimer();
-	        }
-	        if (hasStarted == true && didPhoneRing && buttonPressed == false && hasHookedOff == true) {
-	        	hasStarted = false;
-	        	stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
-	        }
+		catch (NullPointerException e) {
+			Log.i("main", "onNewIntent() hat eine Exception geworfen");
 		}
-		 
-	    if (callState.equalsIgnoreCase("OFFHOOK")) {
-	    	Log.i("phone", "phonestatelistener offhook aufgerufen");
-			hasHookedOff = true;
-		} 
 	    super.onNewIntent(intent);
 	}
 
