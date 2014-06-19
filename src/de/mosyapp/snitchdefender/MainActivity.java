@@ -245,7 +245,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 					Log.i("infos", "Gleich wird gestoppt");
 					stopAlarms();
 					alarm.startVibrationOnActivate();
-					activateButton.setImageResource(R.drawable.buttonred);
+					activateButton.setImageResource(R.drawable.hover);
 				}
 				startCountDownTimer();
 			}
@@ -306,7 +306,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	        countdown.setText("Aktivierung in " + millisUntilFinished + " Sekunden!");      
 	        if(countDownFinal == 12){    
 	        	 countdown.setText("aktiviert!");
-	        	 activateButton.setImageResource(R.drawable.buttongreen);
+	        	 activateButton.setImageResource(R.drawable.hover2);
 	        }
 	    }
 	}
@@ -476,7 +476,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				Log.i("phone", "phonestatelistener ringing aufgerufen");
 		        if (buttonPressed){
 		        	stopAlarms(); 
-		        	activateButton.setImageResource(R.drawable.buttonred);
+		        	activateButton.setImageResource(R.drawable.hover);
 		         	didPhoneRing = true;
 		        }
 			}
