@@ -96,6 +96,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		// ActionBar gesondert für MainActivity ändern
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
 		
 		// Verbindung zum Benachrichtigungs-Service aufbauen
 		mConnection = new ServiceConnection() {	
