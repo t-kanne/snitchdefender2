@@ -47,6 +47,9 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity implements SensorEventListener, AnimationListener {
 	private boolean doubleBackToExitPressedOnce;
 	private boolean isLockScreenDisabled;
+	
+	// Variablen für die Anrufüberwachung
+	private BroadcastReceiver callReceiver;
 	private boolean didPhoneRing;
 	private boolean hasHookedOff = false;
 	private String callState;
@@ -55,7 +58,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private ServiceConnection mConnection;
 	private boolean mIsBound;
 	
-	//Variablen für den Aktivierungscountdown
+	// Variablen für den Aktivierungscountdown
 	private boolean hasStarted = false;
 	private boolean countDownCheck = false;
 	private CountdownReceiver cdr;
@@ -138,6 +141,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		pushtoactivate.startAnimation(pushtoactivatefade);	
 		pushtoactivate.setVisibility(View.VISIBLE);
 		
+		// CallReceiver-Service starten
+		Intent callReceiverIntent = new Intent(this, CallReceiverService.class);
+		startService(callReceiverIntent);
+		
 	}
 	
 	
@@ -174,8 +181,21 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		isLockScreenDisabled = preferences.getBoolean("pref_lockscreen_mode_key", false);
 		Log.i("dimm", "lockScreenDisabled: " + isLockScreenDisabled);
 		
+		// Countdown-Receiver registrieren
 		registerReceiver(cdr, intentFilter);
 		registerReceiver(cdr2, intentFilter2);
+		
+		// CallReceiver registrieren
+		IntentFilter callRecIntFilter = new IntentFilter("android.intent.action.MAIN");
+		callReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				callState = intent.getStringExtra("state");
+				handleCallState(callState);
+			}
+		};
+		this.registerReceiver(callReceiver, callRecIntFilter);
 		
 		Log.i("main", "onresume()");
 	}
@@ -397,8 +417,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		
 		try {
 			unregisterReceiver(cdr);
+			unregisterReceiver(cdr2);
+			unregisterReceiver(callReceiver);
 		} catch (IllegalArgumentException e) {
-			Log.i("main", "Receiver nicht registriert");
+			Log.i("main", "Mind. einer der Receiver war nicht registriert");
 		}
 		
 		if (mIsBound) {
@@ -414,6 +436,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			closeThisApp = true;
 			this.finish(); 								// Activity normal schließen, wenn Alarm nicht aktiv
 		}
+		stopService(new Intent(this,CallReceiverService.class));
 	}
 	
 
@@ -461,16 +484,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	    super.onPause();
 	    Log.i("main", "onPause() aufgerufen");  
 	    
+	    this.unregisterReceiver(this.cdr);
+	    this.unregisterReceiver(this.cdr2);
 	}
 
 	// Telefonstatus wird überwacht. Wenn Anruf eingeht, dann Alarm deaktivieren.
 	// Wenn Anruf beendet/abgelehnt/ignoriert, dann Countdown wieder aktivieren.
 	// Daten kommen per Intent aus IncomingCallTracker (BroadcastReceiver)
 	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		callState = intent.getStringExtra("state");
-		
+	public void handleCallState(String callState) {
+			
 		try {
 			if (callState.equalsIgnoreCase("RINGING")) {
 				Log.i("phone", "phonestatelistener ringing aufgerufen");
@@ -496,13 +519,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			 
 		    if (callState.equalsIgnoreCase("OFFHOOK")) {
 		    	Log.i("phone", "phonestatelistener offhook aufgerufen");
+		    	this.moveTaskToBack(true);
 				hasHookedOff = true;
 			}
 		}
 		catch (NullPointerException e) {
-			Log.i("main", "onNewIntent() hat eine Exception geworfen");
+			Log.i("main", "handleCallState() hat eine Exception geworfen");
 		}
-	    super.onNewIntent(intent);
 	}
 
 	@Override
