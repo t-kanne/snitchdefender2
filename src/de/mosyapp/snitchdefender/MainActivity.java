@@ -78,7 +78,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private float limitValue;
 	private float xmax, ymax, zmax; 				// Sensor Grenzwert
 	private float x,y,z;
-	private float x_compare, y_compare, z_compare;
 
 	//Layout
 	private boolean menuKeyPressed = false;
@@ -194,8 +193,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		ymax = Math.abs(y);
 		zmax = Math.abs(z);		
 		}
-	compareSensorData();
-}
+	  compareSensorData();
+	}
 	
 	
 	//Verarbeiten der im Array gespeicherten X,Y Werte
@@ -293,7 +292,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public class CountdownReceiver extends BroadcastReceiver {
 		@Override
 	    public void onReceive(Context context, Intent intent) {
-			
 	        setActivationCountDown(intent);
 	        setActivationCountDown2(intent);
 	        setDeactivationCountDown3(intent);
@@ -345,7 +343,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			sensorWerte[0] = x;
 			sensorWerte[1] = y;
 			sensorWerte[2] = z;
-		
 			Log.i("infos", "sensorwerte ins array geladen");
 	}
 	
@@ -479,6 +476,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				Log.i("phone", "phonestatelistener ringing aufgerufen");
 		        if (buttonPressed){
 		        	stopAlarms(); 
+		        	activateButton.setImageResource(R.drawable.buttonred);
 		         	didPhoneRing = true;
 		        }
 			}
