@@ -61,23 +61,22 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	            ListPreference listPref = (ListPreference) pref;
 	            listPref.setSummary(listPref.getEntry());
 	        }
-	        if (pref instanceof CheckBoxPreference) {
-	        	Log.i("settings", "lockscreen mode geändert");
-	        	CheckBoxPreference lockPref = (CheckBoxPreference) findPreference("pref_lockscreen_mode_key");
-	        	boolean lockPrefValue = lockPref.isChecked();
-	        	Log.i("settings", "lockscreenOn: " + lockPrefValue);
-	        	if (lockPrefValue == true) {
-
-	                AlertDialog.Builder builder = 
-	                   new AlertDialog.Builder(this);
-
+	        
+	        String lockKey = "pref_lockscreen_mode_key";
+	        Log.i("settings", "lockscreen mode geändert");
+	        CheckBoxPreference lockPref = (CheckBoxPreference) findPreference(lockKey);
+	        boolean lockPrefValue = lockPref.isChecked();
+	        Log.i("settings", "lockscreenOn: " + lockPrefValue);
+	        if (key.equals(lockKey) && lockPrefValue == true) {
+                AlertDialog.Builder builder = 
+                   new AlertDialog.Builder(this);
 	                builder.setTitle(R.string.notification);
 	                builder.setPositiveButton(R.string.okay, null); 
 	                builder.setMessage(R.string.pref_lockscreen_mode_information);
 	                AlertDialog errorDialog = builder.create();
 	                errorDialog.show();
-	        	}
 	        }
+	        
 	}
 	
 	@Override
