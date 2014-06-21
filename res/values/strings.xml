@@ -5,7 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_credits">Credits</string>
-    <string name="credits_text">SnitchDefender. ©2014</string>
     <string name="title_service_create_notification">CreateNotificationActivity</string>
     <string name="notification_defender_active">Diebstahlschutz ist aktiv</string>
     <string name="notification_defender_inactive">Diebstahlschutz ist nicht aktiv</string>
@@ -14,38 +13,9 @@
     <string name="cancel">Abbrechen</string>
     <string name="notification">Hinweis!</string>
     <string name="title_activity_help">HelpActivity</string>
-    <string name="help_activity_content">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata 
-        sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed 
-        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-        eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est 
-        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam 
-        et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor 
-        sit amet. 
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata 
-        sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed 
-        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-        eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est 
-        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam 
-        et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor 
-        sit amet. 
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
-        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata 
-        sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed 
-        diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero 
-        eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est 
-        Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy 
-        eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam 
-        et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor 
-        sit amet.        </string>
     <string name="title_activity_dimm">DimmActivity</string>
     <string name="dimm_activity_close">Nochmal drücken</string>
+    <string name="dimm_activity_exit_button_text">zurück</string>
     
     <string name="firstScreenText">Vielen Dank für´s Herunterladen des SnitchDefender!
         Bevor es losgeht: Diese App verwendet den Bewegungssensor des Geräts. Auf vielen Geräten kann dieser allerdings
@@ -53,6 +23,13 @@
 		Modus. Bitte überprüfe aber zuerst, ob diese App auch ohne den Modus ordnungsgemäß funktioniert.
 		Mehr Informationen bekommst du auf der Hilfe-Seite.
 		Und nun viel Spaß mit dem SnitchDefender!
+	</string>
+	<string name="credits_text">
+	    Diese App wurde entwickelt von Richard Holzner und
+	    Thomas Kanne-Schludde. 
+	    Ein Dank geht an Lukas Daams für die Inspiration!
+	    Supportanfragen: snitchdefender@gmail.com
+	    (c)2014 Snitch Defender
 	</string>
 
 </resources>

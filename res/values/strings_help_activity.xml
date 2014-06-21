@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="help_activity_content">
+    	Was ist der Snitch Defender?
+    	
+    	Der Snitch Defender ist ein Diebstahlschutz für Dein Handy.
+    	Mit ihm ist es möglich, Dein Handy in der Öffentlichkeit liegen zu lassen,
+    	ohne ständig ein Auge darauf haben zu müssen. 
+    	
+    	
+    	Wie funktioniert es?
+    	
+    	Um den Diebstahlschutz zu gewährleisten, verwendet die App den Beschleunigungssensor
+    	Deines Handys. Wird das Gerät zu sehr bewegt, wird ein Alarm ausgelöst, sodass
+    	die Aufmerksamkeit auf den Dieb gelenkt wird. Dabei sollte er panisch werden und Du
+    	kannst ihn letztendlich hoffentlich überführen.
+    	
+    	
+    	Wie verwendet Ich den Snitch Defender?
+    	
+    	Um die Alarmbereitschaft einzuschalten, brauchst Du nur auf den großen roten
+    	Auslöseknopf zu drücken.
+    	Ein Countdown zählt herunter, sodass Du während dieser Zeit dein Handy so positionieren
+    	kannst, wie du es gerne hättest.
+    	
+    	
+    	In welchen Situation brauche ich den Snitch Defender?
+    	
+    	Du kannst die App zum Beispiel in der Bibliothek einsetzen. Dein Handy bleibt sicher
+    	an Ort und Stelle, auch wenn Du beim Lernen mal einnicken oder abgelenkt sein solltest.
+    	Außerdem bietet er sich auch in Bus und Bahn an und bewahrt Dich vor einem ungewollten
+    	Handyverlust - solltest Du auch hier mal eingeschlafen sein.
+    	
+    	
+    	Welche Einstellungen können vorgenommen werden?
+    	
+    	Im Einstellungs-Menü kannst du zusätzlich zum nervigen Alarmsound den Vibrationsalarm
+    	sowie die Foto-LED, falls vorhanden, aktivieren.
+    	Außerdem lassen sich der Aktivierungscountdown und die Bewegungsempfindlichkeit einstellen.
+        Nähere Informationen zur Verwendung der Standby-Funktion findest du weiter unten auf dieser
+        Seite.
+        
+        
+        Wozu kann man die Bewegungsempfindlichkeit einstellen?
+        
+        Für verschiedene Situationen gibt es verschiedene Einestellungsmodi: 
+        Hohe Empfindlichkeit: Dieser Modus bietet sich für paranoide Menschen an. Natürlich kannst du
+        damit auch deinen Freunden einen Streich spielen.
+        Normale Empfindlichkeit: Dieser Modus ist immer gut zu gebrauchen.
+        Niedrige Empfindlichkeit: Dieser Modus eignet sich am besten in Bahn und Bus, wo es durchaus
+        mal holprig werden kann. 
+        
+        
+        Wann verwende ich die Funktion "Standy verhindern"?
+        
+        Auf einigen Geräten kann der Diebstahlschutz nicht bei gesperrtem Bildschirm verwendet werden, 
+        da der Bewegungssensor dann nicht mehr aktiv ist. 
+        Dieser Modus verhindert das Sperren des Bildschirms und dimmt ihn daher auf die niedrigste Stufe
+        herunter.
+        Dieser Modus kann deutlich mehr Akkukapazitäten verbrauchen. Wir empfehlen daher, dass Du zuerst
+        überprüfst, ob der Alarm auch bei gesperrtem Bildschirm aktiviert wird.
+		Wenn dies nicht der Fall ist, solltest Du diesen Modus verwenden.
+		
+		
+		Wie kann Ich den Standby Modus (gedimmter Bildschirm) verlassen?
+		
+		Entweder benutzt Du den Home-Button oder den Zurück-Button, der widerum einen weiteren
+		Button zum Beenden anzeigen lässt. 
+				
+	
+		Was passiert, wenn mich jemand bei aktivem Diebstahlschutz anruft?
+		
+		Geht ein Anruf ein, wird der Diebstahlschutz kurz automatisch deaktiviert, damit Du das 
+		Telefonat ungestört annehmen kannst. Solltest Du den Anruf verpassen oder gar nicht erst
+		annehmen wollen, wird der Schutz automatisch reaktiviert, sobald es aufhört zu klingeln.
+		
+		Möchtest Du einen Anrufer direkt abwürgen, wird auch hier der Diebstahlschutz automatisch wieder
+		aktiviert.
+		Es ist unbedenklich, das Handy in beiden Fällen in die Hand zu nehmen, da danach dein gesetzter
+		Countdown wieder einsetzt, um Dir Zeit zu verschaffen, Dein Gerät wieder in die gewünschte Position
+		zurückzubringen.
+		
+		Nimmst du hingegen das Gespräch an, wird der Diebstahlschutz nach dem Gespräch NICHT wieder
+		aufgenommen. Schließlich können wir ja nicht wissen, was Du danach noch mit Deinem Handy vorhast.
+		Denke also daran, den Schutz MANUELL wieder zu aktivieren!
+		
+        
+        Welche Berechtigungen fordert die App - und warum?
+        
+        Telefonstatus und Identität abrufen: Diese Berechtigung ist erforderlich, um den Snitch Defender
+        kurzzeitig deaktivieren zu können, wenn ein Anruf eingeht.
+        Die Anrufidentität wird hierbei natürlich nicht von uns analysiert. Also keine Panik.
+        
+        Bilder und Videos aufnehmen: Diese Berechtigung wird benötigt, um auf die LED Deines
+        Geräts zugreifen zu können. Diese hängt nämlich direkt mit der Steuerung der Lichtanzeige zusammen.
+        
+        Vibrationsalarm steuern: Ja ne, is klar oder? Ohne Vibration keine Vibration.
+        
+        
+        Kann Ich die App auch auf meinem Tablet verwenden?
+        
+        Ja, sieht aber scheiße aus. Wir arbeiten dran.
+        
+          
+        Noch ungeklärte Fragen?
+        
+        Falls Du noch weitere Fragen zur Verwendung der App hast, kannst Du uns gerne
+        per E-Mail schreiben oder einen Kommentar im Play Store hinterlassen.
+        Wir werden uns bemühen, deine Anfrage umgehend zu beantworten.
+        Du kannst uns auch gerne kontaktieren, wenn dich der Snitch Defender vor einem Diebstahl
+        bewahrt hat - oder Du leider nicht so glimpflich davon gekommen bist.
+        Für die Wiederanschaffung Deines Handys können wir zu unserem Bedauern leider nicht aufkommen.
+          
+        </string>
+</resources>
