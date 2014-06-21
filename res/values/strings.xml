@@ -4,7 +4,7 @@
     <string name="app_name">SnitchDefender</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_credits">Credits</string>
+    <string name="title_activity_credits">Über den Hersteller</string>
     <string name="title_service_create_notification">CreateNotificationActivity</string>
     <string name="notification_defender_active">Diebstahlschutz ist aktiv</string>
     <string name="notification_defender_inactive">Diebstahlschutz ist nicht aktiv</string>
@@ -12,7 +12,7 @@
     <string name="okay">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="notification">Hinweis!</string>
-    <string name="title_activity_help">HelpActivity</string>
+    <string name="title_activity_help">Hilfe</string>
     <string name="title_activity_dimm">DimmActivity</string>
     <string name="dimm_activity_close">Nochmal drücken</string>
     <string name="dimm_activity_exit_button_text">zurück</string>
@@ -32,7 +32,7 @@
 	    Thomas Kanne-Schludde.  <br> <br>
 	    Ein Dank geht an Lukas Daams für die Inspiration! <br> <br><br>
 	    Supportanfragen: <br> <br>snitchdefender@gmail.com <br> <br> <br>
-	   <i> (c) 2014 Snitch Defender</i>
+	   <i> &copy; 2014 Snitch Defender</i>
 	     ]]>
 	</string>
 

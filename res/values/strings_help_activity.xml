@@ -32,7 +32,7 @@
      <string name="how_to_user_snitch_question">	
           <![CDATA[	
            <br><br><br>
-    	<p><i><h6>Wie verwendet Ich den Snitch Defender?</h6></i></p>
+    	<p><i><h6>Wie verwende Ich den Snitch Defender?</h6></i></p>
 	 	<p><p></p>
     	Um die Alarmbereitschaft einzuschalten, brauchst Du nur auf den großen roten
     	Auslöseknopf zu drücken.<br>
@@ -44,7 +44,7 @@
       <string name="situations_to_use_question">	
            <![CDATA[		 
             <br><br><br>	
-    	<p><i><h6>In welchen Situation brauche ich den Snitch Defender?</h6></i></p>
+    	<p><i><h6>In welchen Situationen brauche ich den Snitch Defender?</h6></i></p>
 		<p><p></p>
     	Du kannst die App zum Beispiel in der Bibliothek einsetzen. Dein Handy bleibt sicher
     	an Ort und Stelle, auch wenn Du beim Lernen mal einnicken oder abgelenkt sein solltest.<br>
@@ -83,7 +83,7 @@
        <string name="prevent_standby_question">		
          <![CDATA[ 
           <br><br><br>
-       <p><i> <h6>Wann verwende ich die Funktion "Standy verhindern"?</h6></i></p>
+       <p><i> <h6>Wann verwende ich die Funktion &quot;Standby verhindern?&quot;</h6></i></p>
 	  	<p><p></p>	
         Auf einigen Geräten kann der Diebstahlschutz nicht bei gesperrtem Bildschirm verwendet werden, 
         da der Bewegungssensor dann nicht mehr aktiv ist. <br>
@@ -139,7 +139,7 @@
         <br><br>
         <i>Bilder und Videos aufnehmen:</i><br> <br> Diese Berechtigung wird benötigt, um auf die LED Deines
         Geräts zugreifen zu können. Diese hängt nämlich direkt mit der Steuerung der Lichtanzeige zusammen.
-        <br>
+        <br><br>
        <i> Vibrationsalarm steuern:</i> <br> <br>Ja ne, is klar oder? Ohne Vibration keine Vibration.</p>
         ]]>
        </string> 

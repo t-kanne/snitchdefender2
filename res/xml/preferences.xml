@@ -30,17 +30,17 @@
     
 	<PreferenceCategory
 	    android:title="@string/pref_header_notifications" >
-	    <RingtonePreference
-	        android:defaultValue="content://settings/system/notification_sound"
-	        android:key="pref_ringtone_key"
-	        android:ringtoneType="alarm"
-	        android:title="@string/pref_ringtone_title" />
+	
 
 	    <CheckBoxPreference
 	        android:defaultValue="true"
 	        android:key="notifications_vibrate_key"
 	        android:title="@string/pref_vibrate_title" /> 
 	        
+	     <CheckBoxPreference
+	        android:defaultValue="true"
+	        android:key="notifications_flashlight_key"
+	        android:title="@string/pref_flashlight_title" />     
 	   
 	</PreferenceCategory>
 	
