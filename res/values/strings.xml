@@ -24,12 +24,16 @@
 		Mehr Informationen bekommst du auf der Hilfe-Seite.
 		Und nun viel Spaß mit dem SnitchDefender!
 	</string>
+	
 	<string name="credits_text">
+	     <![CDATA[
+	    <h3>SNITCH DEFENDER</h3>  <br><br><br>
 	    Diese App wurde entwickelt von Richard Holzner und
-	    Thomas Kanne-Schludde. 
-	    Ein Dank geht an Lukas Daams für die Inspiration!
-	    Supportanfragen: snitchdefender@gmail.com
-	    (c)2014 Snitch Defender
+	    Thomas Kanne-Schludde.  <br> <br>
+	    Ein Dank geht an Lukas Daams für die Inspiration! <br> <br><br>
+	    Supportanfragen: <br> <br>snitchdefender@gmail.com <br> <br> <br>
+	   <i> (c) 2014 Snitch Defender</i>
+	     ]]>
 	</string>
 
 </resources>

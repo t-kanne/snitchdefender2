@@ -8,19 +8,114 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.mosyapp.snitchdefender.HelpActivity$PlaceholderFragment" >
 
-    <ScrollView
-    	android:id="@+id/SCROLLER_ID"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:scrollbars="vertical"
-    	android:fillViewport="true">
-
-        <TextView
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"	
-        	android:text="@string/help_activity_content" />
-
-    </ScrollView>
+<ScrollView android:id="@+id/ScrollView1"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+    	
     
+    <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:padding="6dip"
+    >
+    
+        <TextView
+            android:id="@+id/faq_view"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_centerHorizontal="true"
+        	android:text="@string/faq_view_text" />
+        
+         <TextView
+            android:id="@+id/faq_question1"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_view"
+        	android:text="@string/what_is_snitch_defender_question" />
+         
+         <TextView
+            android:id="@+id/faq_question2"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question1"
+        	android:text="@string/how_snitch_defender_works_question" />
+         
+          <TextView
+            android:id="@+id/faq_question3"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question2"
+        	android:text="@string/how_to_user_snitch_question" />
+          
+          <TextView
+            android:id="@+id/faq_question4"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question3"
+        	android:text="@string/situations_to_use_question" />
+          
+          <TextView
+            android:id="@+id/faq_question5"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question4"
+        	android:text="@string/settings_question" />
+          
+          <TextView
+            android:id="@+id/faq_question6"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question5"
+        	android:text="@string/sensibility_question" />
+          
+          <TextView
+            android:id="@+id/faq_question7"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question6"
+        	android:text="@string/prevent_standby_question" />
+          
+          <TextView
+            android:id="@+id/faq_question8"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question7"
+        	android:text="@string/standby_exit_question" />
+          
+           <TextView
+            android:id="@+id/faq_question9"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question8"
+        	android:text="@string/call_question" />
+           
+            <TextView
+            android:id="@+id/faq_question10"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question9"
+        	android:text="@string/permission_question" />
+            
+             <TextView
+            android:id="@+id/faq_question11"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question10"
+        	android:text="@string/tablet_question" />
+             
+              <TextView
+            android:id="@+id/faq_question12"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question11"
+        	android:text="@string/other_questions_question" />
+           
+           
+
+		</LinearLayout>
+          
+    </ScrollView>
 
 </LinearLayout>
