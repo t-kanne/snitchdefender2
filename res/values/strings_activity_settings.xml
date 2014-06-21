@@ -8,9 +8,9 @@
     <string name="pref_movement_sensitivity_title">Bewegungsempfindlichkeit</string>
     
     <string-array name="pref_movement_sensitivity_options">
-        <item>hoch</item>
+        <item>sehr empfindlich</item>
         <item>standard</item>
-        <item>niedrig</item>
+        <item>nicht sehr empfindlich</item>
     </string-array>
     
     <string-array name="pref_movement_sensitivity_values">
