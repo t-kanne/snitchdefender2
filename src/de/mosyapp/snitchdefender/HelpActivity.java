@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class HelpActivity extends ActionBarActivity {
 
 	TextView textView,textView_question1,textView_question2,textView_question3,textView_question4,
-	textView_question5,textView_question6,textView_question7,textView_question8,textView_question9,
+	textView_question5,textView_question6,textView_question61,textView_question7,textView_question8,textView_question9,
 	textView_question10,textView_question11,textView_question12;
 	
 	@Override
@@ -43,6 +43,9 @@ public class HelpActivity extends ActionBarActivity {
 	    
 	    textView_question6 = (TextView) findViewById (R.id.faq_question6);
 	    textView_question6.setText (Html.fromHtml (getString (R.string.sensibility_question)));
+	 	        
+	    textView_question61 = (TextView) findViewById (R.id.faq_question61);
+	    textView_question61.setText (Html.fromHtml (getString (R.string.countdown_question)));
 	    
 	    textView_question7 = (TextView) findViewById (R.id.faq_question7);
 	    textView_question7.setText (Html.fromHtml (getString (R.string.prevent_standby_question)));

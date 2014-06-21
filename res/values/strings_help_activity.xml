@@ -79,6 +79,19 @@
         mal holprig werden kann. </p>
          ]]>
       </string>	 
+      
+       
+       <string name="countdown_question">	
+       <![CDATA[	
+        <br><br><br>		
+        <p><i><h6>Welchen Nutzen bringt die Aktivierungsverzögerung?</h6></i></p>
+	 	<p><p></p>	
+        Mithilfe des Aktivierungscountdowns kannst du dein Handy in die gewünschte Position zu bringen, bevor
+        die App &quot;scharf&quot; gestellt wird.<br>
+        In den Einstellungen kannst Du wählen, wie lange dieser dauert. 
+        </p>
+         ]]>
+      </string>	 
         
        <string name="prevent_standby_question">		
          <![CDATA[ 

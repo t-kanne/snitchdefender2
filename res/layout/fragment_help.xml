@@ -71,6 +71,13 @@
         	android:layout_below="@+id/faq_question5"
         	android:text="@string/sensibility_question" />
           
+           <TextView
+            android:id="@+id/faq_question61"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"	
+        	android:layout_below="@+id/faq_question5"
+        	android:text="@string/countdown_question" />
+          
           <TextView
             android:id="@+id/faq_question7"
         	android:layout_width="wrap_content"
