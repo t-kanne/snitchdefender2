@@ -340,7 +340,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	        	setActualSensorData();
 	        	if (isLockScreenDisabled) {
 		        	Intent dimmIntent = new Intent(this,DimmActivity.class);
-		        	startActivityForResult(dimmIntent, 1);
+		        	startActivity(dimmIntent);
 	        	}
 	        }
 	    }
@@ -507,7 +507,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				Log.i("phone", "phonestatelistener idle aufgerufen");
 		        if (hasStarted == true && didPhoneRing && buttonPressed == false && hasHookedOff == false) {
 		        	hasStarted = false;
-		        	finishActivity(1);
+		        	//finishActivity(1);
 		        	stopService(new Intent(MainActivity.this, ActivateCountDownTimer.class));
 		        	startCountDownTimer();
 		        }

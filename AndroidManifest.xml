@@ -62,7 +62,7 @@
         <activity
             android:name="de.mosyapp.snitchdefender.DimmActivity"
             android:label="@string/title_activity_dimm"
-            android:showOnLockScreen="true"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
