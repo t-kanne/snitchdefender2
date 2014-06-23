@@ -24,7 +24,7 @@ public class DimmActivity extends Activity {
 		button.setVisibility(View.GONE);
 		
 		WindowManager.LayoutParams layout = getWindow().getAttributes();
-		layout.screenBrightness = 1F;
+		layout.screenBrightness = 0.1f;
 		getWindow().setAttributes(layout);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
